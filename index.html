@@ -798,17 +798,17 @@ function toggleaudio() {
     recognition.onresult = (event) => {
       let finalTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
-        valueofanswerbox = document.getElementById("answer").value;
-        for (u = 0; u < 4; u++) {
-          if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
-            checkanswer(u);
-          }
-        }
         transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
           finalTranscript += transcript + " ";
         } else {
           tempTranscript = transcript;
+        }
+        valueofanswerbox = finalTranscript + tempTranscript;
+        for (u = 0; u < 4; u++) {
+          if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
+            checkanswer(u);
+          }
         }
       }
       answerBox.value = finalTranscript + tempTranscript;
