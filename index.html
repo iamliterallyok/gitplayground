@@ -799,7 +799,6 @@ function toggleaudio() {
       let finalTranscript = "";
       let interimTranscript = "";
 
-      // Gather all speech accurately from the beginning of the session
       for (let i = 0; i < event.results.length; ++i) {
         const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
@@ -811,51 +810,50 @@ function toggleaudio() {
 
       const currentSpokenText = (finalTranscript + interimTranscript).trim();
       
-      // Update the UI text box instantly for a fluid look
+      // 1. Update UI box instantly
       const answerBox = document.getElementById("answer");
-      if (answerBox) {
-        answerBox.value = currentSpokenText;
-      }
+      if (answerBox) answerBox.value = currentSpokenText;
 
-      // --- OPTIMIZATION: Debounce the heavy checking logic ---
-      clearTimeout(checkTimeout);
+      // 2. THE FIX: Normalize the text right now for the check loop.
+      // Speech engines often capitalize interim words randomly or append periods.
+      // This strips formatting so comparetwo doesn't choke on interim streams.
+      const cleanSpokenText = currentSpokenText
+        .toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
 
-      // Only run the comparison if the user pauses for 200ms
-      checkTimeout = setTimeout(() => {
-        const mcqElements = document.getElementsByClassName("imcq");
+      const mcqElements = document.getElementsByClassName("imcq");
+      
+      for (let u = 0; u < 4; u++) {
+        if (!mcqElements[u]) break;
         
-        for (let u = 0; u < 4; u++) {
-          if (!mcqElements[u]) break; // Safety check in case there are fewer than 4 elements
-          
-          const optionHTML = mcqElements[u].innerHTML;
-          if (comparetwo(optionHTML, currentSpokenText)) {
-            checkanswer(u);
-            break; // Stop evaluating other options once a match is hit
-          }
+        // Clean the option text exactly the same way for a fair, instant comparison
+        const cleanOptionText = mcqElements[u].innerHTML
+          .toLowerCase()
+          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        // Feed the cleaned, real-time stream into your imperative function
+        if (comparetwo(cleanOptionText, cleanSpokenText)) {
+          checkanswer(u);
+          break; 
         }
-      }, 200); 
+      }
     };
 
-    recognition.onerror = (event) => {
-      console.log("Speech recognition error:", event.error);
-    };
-
-    recognition.onend = () => {
-      // Auto-restart if the user didn't explicitly turn off the mic
-      if (audio) recognition.start(); 
-    };
-
+    recognition.onerror = (event) => console.log("Speech error:", event.error);
+    recognition.onend = () => { if (audio) recognition.start(); };
     recognition.start();
     
   } else {
     audio = false;
     document.getElementById("microphone").src = "microphone.png";
-
     if (recognition) {
-      recognition.onend = null;  // Break the auto-restart loop
+      recognition.onend = null;
       recognition.stop();
     }
-    clearTimeout(checkTimeout); // Clean up any leftover timers
   }
 }
     
