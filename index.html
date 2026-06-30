@@ -795,12 +795,14 @@ function toggleaudio() {
         }
       }
       answerBox.innerHTML = finalTranscript + tempTranscript;
+      try {
       valueofanswerbox = document.getElementById("answer").innerHTML;
       for (i = 0; i < 4; i++) {
-      if(comparetwo(document.getElementsByClassName("imcq")[i].innerHTML, valueofanswerbox)) {
-        checkanswer(i);
+        if(comparetwo(document.getElementsByClassName("imcq")[i].innerHTML, valueofanswerbox)) {
+          checkanswer(i);
+        }
       }
-      }
+      } catch(err) { alert(err) }
     };
 
     recognition.onerror = (event) => {
