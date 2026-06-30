@@ -29,6 +29,7 @@
    <option value="hi-IN">Hindi</option>
  </select>
  <input id="answer"></input>
+  <input id="answer56"></input>
  <div id="circles">
  <div id="1mcq" style="left: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="1imcq" class="imcq"></span></div>
  <div id="2mcq" style="right: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="2imcq"class="imcq"></span></div>
@@ -464,7 +465,19 @@
   #answer {
     width: 30dvh;
     height: 6dvh;
-    z-index: 5000;
+    z-index: -5000;
+    opacity: 0;
+    pointer-events: none; 
+    top: 3dvh;
+    left: 3dvh;
+    color: black;
+  }
+  #answer56 {
+    width: 30dvh;
+    height: 6dvh;
+    z-index: -5000;
+    opacity: 0;
+    pointer-events: none; 
     top: 3dvh;
     left: 3dvh;
     color: black;
@@ -771,7 +784,19 @@ function toggleaudio() {
   }
 
   answerBox = document.getElementById("answer");
+  transcript = null;
 
+  setInterval(function() {
+    document.getElementById("answer56").value = transcript;
+  }, 200);
+  document.getElementById("answer56").addEventListener("change", function() {
+    valueofanswerbox = document.getElementById("answer").value;
+      for (u = 0; u < 4; u++) {
+        if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
+          checkanswer(u);
+        }
+      }
+  })
   if (!audio) {
     audio = true;
     document.getElementById("microphone").src = "microphonered.png";
@@ -822,14 +847,7 @@ function toggleaudio() {
     }
   }
 }
-document.getElementById("answer").addEventListener("change", function() {
-  valueofanswerbox = document.getElementById("answer").value;
-  for (u = 0; u < 4; u++) {
-      if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
-        checkanswer(u);
-      }
-  }   
-})
+    
 function next2() {
   document.getElementById("time").style.pointerEvents = "none";
   pose("happy");
