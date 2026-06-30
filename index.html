@@ -602,10 +602,10 @@
 </style>
 <script>
 sessionStorage.setItem("setToUse", "1");
-words = ["one", "two", "three", "four", "five"];
+words = ["Paris", "Berlin", "House", "Cat", "Fries"];
 for (i = 1; i <= 5; i++) {
-  localStorage.setItem(`1q${i}`, `Question ${words[i-1]} ${i}?`);
-  localStorage.setItem(`1a${i}`, `Answer ${words[i-1]} ${i}.`);
+  localStorage.setItem(`1q${i}`, `Question ${words[i-1]}?`);
+  localStorage.setItem(`1a${i}`, `Answer ${words[i-1]}.`);
 }
 localStorage.setItem("1qat", "5");
 localStorage.setItem("darkmode", "0");
