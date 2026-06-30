@@ -870,7 +870,6 @@ function next2() {
   setTimeout(function() {
     secondsLeft = parseInt(document.getElementById("time").value);
     startTimer();
-    setRecognition();
     document.body.style.transition = "0.6s background-color";
     accyAnswer = Math.floor(Math.random() * 4);
     document.getElementsByClassName("mcqfrfr")[0].style.pointerEvents = "auto";
@@ -895,6 +894,7 @@ function next2() {
     thearray = [];
     document.getElementById("qtext2").style.fontSize = "5.5dvh";
     document.getElementById("qtext2").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentdq].toString()));
+    setRecognition();
   }, 4600)
 }
 numcorrect = 0;
