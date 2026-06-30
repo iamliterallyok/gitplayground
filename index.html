@@ -28,7 +28,7 @@
    <option value="ja-JP">Japanese</option>
    <option value="hi-IN">Hindi</option>
  </select>
- <div id="answer"></div>
+ <input id="answer"></input>
  <div id="circles">
  <div id="1mcq" style="left: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="1imcq" class="imcq"></span></div>
  <div id="2mcq" style="right: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="2imcq"class="imcq"></span></div>
@@ -48,7 +48,6 @@
    <option value="270">4:30</option>
    <option value="300">5:00</option>
  </select>
- <textarea class="hidden" maxlength="1000" placeholder="Type the answer here..." id="answer"></textarea>
  <div id="loadbar"><div id="insloadbar"></div></div><span onclick="window.location.href = 'study'.concat(current.concat('.html'))" id="x">X</span>
 </div>
 <div id="secondpart" class="hidden">
@@ -794,15 +793,13 @@ function toggleaudio() {
           tempTranscript = transcript;
         }
       }
-      answerBox.innerHTML = finalTranscript + tempTranscript;
-      try {
-      valueofanswerbox = document.getElementById("answer").innerHTML;
+      answerBox.value = finalTranscript + tempTranscript;
+      valueofanswerbox = document.getElementById("answer").value;
       for (u = 0; u < 4; u++) {
         if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
           checkanswer(u);
         }
       }
-      } catch(err) { alert(err) }
     };
 
     recognition.onerror = (event) => {
@@ -825,7 +822,14 @@ function toggleaudio() {
     }
   }
 }
-
+document.getElementById("answer").addEventListener("change", function() {
+  valueofanswerbox = document.getElementById("answer").value;
+  for (u = 0; u < 4; u++) {
+      if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
+        checkanswer(u);
+      }
+  }   
+})
 function next2() {
   document.getElementById("time").style.pointerEvents = "none";
   pose("happy");
@@ -896,7 +900,7 @@ numcorrect = 0;
 function checkanswer(hahahhh) {
   oneclicked = hahahhh;
   if (audio) { toggleaudio() }
-  document.getElementById("answer").innerHTML = "";
+  document.getElementById("answer").value = "";
   if (oneclicked == accyAnswer) {
     con.push(1);
     pose("happy");
@@ -1108,7 +1112,7 @@ function startTimer() {
       gameEnd = true;
       secondsLeft--;
       if (audio) { toggleaudio() }
-      document.getElementById("answer").innerHTML = "";
+      document.getElementById("answer").value = "";
       document.getElementById("audio").style.pointerEvents = "none";
       document.getElementById("lildropdown").style.pointerEvents = "none";
       document.getElementById("qtext").innerHTML = "0";
