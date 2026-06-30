@@ -776,19 +776,6 @@ function comparetwo(yco, ycidk) {
     return correcton;
 }
 answerBox = document.getElementById("answer");
-  transcript = null;
-
-  setInterval(function() {
-    document.getElementById("answer56").value = transcript;
-  }, 200);
-  document.getElementById("answer56").addEventListener("change", function() {
-    valueofanswerbox = document.getElementById("answer").value;
-      for (u = 0; u < 4; u++) {
-        if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
-          checkanswer(u);
-        }
-      }
-  })
 function toggleaudio() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
