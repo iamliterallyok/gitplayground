@@ -805,7 +805,7 @@ function toggleaudio() {
           tempTranscript = transcript;
         }
       }
-      answerBox.value = "e";
+      answerBox.innerHTML = finalTranscript + tempTranscript;
     };
 
     recognition.onerror = (event) => {
