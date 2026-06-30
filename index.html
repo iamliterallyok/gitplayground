@@ -780,81 +780,93 @@ answerBox = document.getElementById("answer");
 let checkTimeout;
 
 function toggleaudio() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Your browser does not support speech recognition.");
-    return;
-  }
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  if (!audio) {
-    audio = true;
-    document.getElementById("microphone").src = "microphonered.png";
-
-    recognition = new SpeechRecognition();
-    recognition.lang = document.getElementById("lildropdown").value;
-    recognition.continuous = true;     
-    recognition.interimResults = true;  
-
-    recognition.onresult = (event) => {
-      let finalTranscript = "";
-      let interimTranscript = "";
-
-      for (let i = 0; i < event.results.length; ++i) {
-        const transcript = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += transcript + " ";
-        } else {
-          interimTranscript += transcript;
-        }
-      }
-
-      const currentSpokenText = (finalTranscript + interimTranscript).trim();
-      
-      // 1. Update UI box instantly
-      const answerBox = document.getElementById("answer");
-      if (answerBox) answerBox.value = currentSpokenText;
-
-      // 2. THE FIX: Normalize the text right now for the check loop.
-      // Speech engines often capitalize interim words randomly or append periods.
-      // This strips formatting so comparetwo doesn't choke on interim streams.
-      const cleanSpokenText = currentSpokenText
-        .toLowerCase()
-        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-
-      const mcqElements = document.getElementsByClassName("imcq");
-      
-      for (let u = 0; u < 4; u++) {
-        if (!mcqElements[u]) break;
-        
-        // Clean the option text exactly the same way for a fair, instant comparison
-        const cleanOptionText = mcqElements[u].innerHTML
-          .toLowerCase()
-          .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
-
-        // Feed the cleaned, real-time stream into your imperative function
-        if (comparetwo(cleanOptionText, cleanSpokenText)) {
-          checkanswer(u);
-          break; 
-        }
-      }
-    };
-
-    recognition.onerror = (event) => console.log("Speech error:", event.error);
-    recognition.onend = () => { if (audio) recognition.start(); };
-    recognition.start();
-    
-  } else {
-    audio = false;
-    document.getElementById("microphone").src = "microphone.png";
-    if (recognition) {
-      recognition.onend = null;
-      recognition.stop();
+    if (!SpeechRecognition) {
+        alert("Speech recognition not supported.");
+        return;
     }
-  }
+
+    if (!audio) {
+        audio = true;
+        document.getElementById("microphone").src =
+            "microphonered.png";
+
+        recognition = new SpeechRecognition();
+
+        recognition.lang =
+            document.getElementById("lildropdown").value;
+
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = (event) => {
+
+            let spokenText = "";
+
+            // ONLY PROCESS NEW RESULTS
+            for (
+                let i = event.resultIndex;
+                i < event.results.length;
+                i++
+            ) {
+                spokenText += event.results[i][0].transcript + " ";
+            }
+
+            spokenText = spokenText
+                .toLowerCase()
+                .replace(/[^\w\s]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+
+            document.getElementById("answer").value =
+                spokenText;
+
+            const options =
+                document.getElementsByClassName("imcq");
+
+            for (let u = 0; u < options.length; u++) {
+
+                const optionText = options[u].textContent
+                    .toLowerCase()
+                    .replace(/[^\w\s]/g, "")
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+                if (comparetwo(optionText, spokenText)) {
+                    checkanswer(u);
+                    return;
+                }
+            }
+        };
+
+        recognition.onerror = (event) => {
+            console.log(event.error);
+        };
+
+        recognition.onend = () => {
+            if (audio) {
+                recognition.start();
+            }
+        };
+
+        recognition.start();
+
+    } else {
+
+        audio = false;
+
+        document.getElementById("microphone").src =
+            "microphone.png";
+
+        if (recognition) {
+            recognition.onend = null;
+            recognition.stop();
+            recognition = null;
+        }
+    }
 }
     
 function next2() {
