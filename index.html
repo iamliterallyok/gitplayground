@@ -775,15 +775,7 @@ function comparetwo(yco, ycidk) {
     correcton = numhave >= numtobeat;
     return correcton;
 }
-
-function toggleaudio() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Your browser does not support speech recognition.");
-    return;
-  }
-
-  answerBox = document.getElementById("answer");
+answerBox = document.getElementById("answer");
   transcript = null;
 
   setInterval(function() {
@@ -797,6 +789,14 @@ function toggleaudio() {
         }
       }
   })
+function toggleaudio() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Your browser does not support speech recognition.");
+    return;
+  }
+
+  
   if (!audio) {
     audio = true;
     document.getElementById("microphone").src = "microphonered.png";
