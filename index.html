@@ -782,7 +782,7 @@ function toggleaudio() {
     return;
   }
 
-  const answerBox = document.getElementById("answer");
+  answerBox = document.getElementById("answer");
 
   if (!audio) {
     audio = true;
@@ -805,9 +805,7 @@ function toggleaudio() {
           tempTranscript = transcript;
         }
       }
-      console.log(finalTranscript);
-      console.log(finalTranscript + tempTranscript);
-      answerBox.value = finalTranscript + tempTranscript;
+      answerBox.value = "e";
     };
 
     recognition.onerror = (event) => {
