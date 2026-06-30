@@ -776,6 +776,9 @@ function comparetwo(yco, ycidk) {
     return correcton;
 }
 answerBox = document.getElementById("answer");
+// 1. CRITICAL: Declare this globally (outside the function) so the timer persists
+let checkTimeout;
+
 function toggleaudio() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -783,41 +786,54 @@ function toggleaudio() {
     return;
   }
 
-  
   if (!audio) {
     audio = true;
     document.getElementById("microphone").src = "microphonered.png";
 
     recognition = new SpeechRecognition();
     recognition.lang = document.getElementById("lildropdown").value;
-    recognition.continuous = true;       // true for Safari pseudo-continuous
-    recognition.interimResults = true;   // true so we capture partials immediately
-
-    let tempTranscript = "";
+    recognition.continuous = true;     
+    recognition.interimResults = true;  
 
     recognition.onresult = (event) => {
       let finalTranscript = "";
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        transcript = event.results[i][0].transcript;
+      let interimTranscript = "";
+
+      // Gather all speech accurately from the beginning of the session
+      for (let i = 0; i < event.results.length; ++i) {
+        const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
           finalTranscript += transcript + " ";
         } else {
-          tempTranscript = transcript;
+          interimTranscript += transcript;
         }
-        valueofanswerbox = finalTranscript + tempTranscript;
-        for (u = 0; u < 4; u++) {
-          if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
+      }
+
+      const currentSpokenText = (finalTranscript + interimTranscript).trim();
+      
+      // Update the UI text box instantly for a fluid look
+      const answerBox = document.getElementById("answer");
+      if (answerBox) {
+        answerBox.value = currentSpokenText;
+      }
+
+      // --- OPTIMIZATION: Debounce the heavy checking logic ---
+      clearTimeout(checkTimeout);
+
+      // Only run the comparison if the user pauses for 200ms
+      checkTimeout = setTimeout(() => {
+        const mcqElements = document.getElementsByClassName("imcq");
+        
+        for (let u = 0; u < 4; u++) {
+          if (!mcqElements[u]) break; // Safety check in case there are fewer than 4 elements
+          
+          const optionHTML = mcqElements[u].innerHTML;
+          if (comparetwo(optionHTML, currentSpokenText)) {
             checkanswer(u);
+            break; // Stop evaluating other options once a match is hit
           }
         }
-      }
-      answerBox.value = finalTranscript + tempTranscript;
-      valueofanswerbox = document.getElementById("answer").value;
-      for (u = 0; u < 4; u++) {
-        if(comparetwo(document.getElementsByClassName("imcq")[u].innerHTML, valueofanswerbox)) {
-          checkanswer(u);
-        }
-      }
+      }, 200); 
     };
 
     recognition.onerror = (event) => {
@@ -825,7 +841,8 @@ function toggleaudio() {
     };
 
     recognition.onend = () => {
-      if (audio) recognition.start(); // restart if still active
+      // Auto-restart if the user didn't explicitly turn off the mic
+      if (audio) recognition.start(); 
     };
 
     recognition.start();
@@ -835,9 +852,10 @@ function toggleaudio() {
     document.getElementById("microphone").src = "microphone.png";
 
     if (recognition) {
-      recognition.onend = null;  // prevent auto-restart
+      recognition.onend = null;  // Break the auto-restart loop
       recognition.stop();
     }
+    clearTimeout(checkTimeout); // Clean up any leftover timers
   }
 }
     
