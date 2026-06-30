@@ -668,18 +668,6 @@ audio = false;
 let recognition = null;
 let finalTranscript = "";
 let restartTimer = null;
-
-function setRecognition() {
-  /*setInterval(function() {
-    valueofanswerbox = document.getElementById("answer").innerHTML;
-    for (i = 0; i < 4; i++) {
-      if(comparetwo(document.getElementsByClassName("imcq")[i].innerHTML, valueofanswerbox)) {
-        checkanswer(i);
-      }
-    }
-  }, 500);*/
-}
-
 function comparetwo(yco, ycidk) {
     newword = "";
     allwords = [];
@@ -807,6 +795,12 @@ function toggleaudio() {
         }
       }
       answerBox.innerHTML = finalTranscript + tempTranscript;
+      valueofanswerbox = document.getElementById("answer").innerHTML;
+      for (i = 0; i < 4; i++) {
+      if(comparetwo(document.getElementsByClassName("imcq")[i].innerHTML, valueofanswerbox)) {
+        checkanswer(i);
+      }
+      }
     };
 
     recognition.onerror = (event) => {
@@ -818,7 +812,7 @@ function toggleaudio() {
     };
 
     recognition.start();
-
+    
   } else {
     audio = false;
     document.getElementById("microphone").src = "microphone.png";
@@ -894,7 +888,6 @@ function next2() {
     thearray = [];
     document.getElementById("qtext2").style.fontSize = "5.5dvh";
     document.getElementById("qtext2").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentdq].toString()));
-    setRecognition();
   }, 4600)
 }
 numcorrect = 0;
