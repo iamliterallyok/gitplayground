@@ -900,6 +900,8 @@ function next2() {
 numcorrect = 0;
 function checkanswer(hahahhh) {
   oneclicked = hahahhh;
+  if (audio) { toggleaudio() }
+  document.getElementById("answer").innerHTML = "";
   if (oneclicked == accyAnswer) {
     con.push(1);
     pose("happy");
