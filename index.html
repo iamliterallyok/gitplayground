@@ -1,1540 +1,828 @@
-<!DOCTYPE html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json"/>
+<script  
+  src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" 
+  integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" 
+  crossorigin="anonymous" 
+  referrerpolicy="no-referrer">
+</script>
 <body>
-<div id="firstpart" class="">
-<div id="fullscreen">
- <div id="popup">
-   <span id="title">
-   </span>
-   <div id="torabody"></div>
-   <div id="torahead"></div>
- </div>
-  </div>
-  <button onclick="next2()" id="check">Next</button>
- <div id="question"><span style="font-size: 3.5dvh" id="qtext">Try to Answer as Many Multiple Choice Questions as you can in a Limited Amount of Time:
- </span></div>
- <div class="hidden" id="question2"><span id="qtext2"></span></div>
-  <button class="hidden" onclick="toggleaudio()" id="audio"><img src="microphone.png" id="microphone"></button>
- <select class="hidden" id="lildropdown">
-   <option value="en-US">English</option>
-   <option value="zh-CN">Mandarin</option>
-   <option value="es-ES">Spanish</option>
-   <option value="fr-FR">French</option>
-   <option value="it-IT">Italian</option>
-   <option value="de-DE">German</option>
-   <option value="ja-JP">Japanese</option>
-   <option value="hi-IN">Hindi</option>
- </select>
- <input id="answer"></input>
-  <input id="answer56"></input>
- <div id="circles">
- <div id="1mcq" style="left: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="1imcq" class="imcq"></span></div>
- <div id="2mcq" style="right: 10.6dvh; top: 65.5dvh" class="mcqfrfr hidden"><span id="2imcq"class="imcq"></span></div>
- <div id="3mcq" style="left: 10.6dvh; top: 81.1dvh" class="mcqfrfr hidden"><span id="3imcq"class="imcq"></span></div>
- <div id="4mcq" style="right: 10.6dvh; top: 81.1dvh" class="mcqfrfr hidden"><span id="4imcq"class="imcq"></span></div>
- <div class="hidden" onclick="bien()" id="biencircle"></div>
- <div class="hidden" onclick="mal()" id="malcircle"></div>
- </div>
- <select id="time">
-   <option value="60">1:00</option>
-   <option value="90">1:30</option>
-   <option value="120">2:00</option>
-   <option value="150">2:30</option>
-   <option value="180">3:00</option>
-   <option value="210">3:30</option>
-   <option value="240">4:00</option>
-   <option value="270">4:30</option>
-   <option value="300">5:00</option>
- </select>
- <div id="loadbar"><div id="insloadbar"></div></div><span onclick="window.location.href = 'study'.concat(current.concat('.html'))" id="x">X</span>
+<span id="copyrightnotice" style="position: fixed; z-index: 2147483647; pointer-events: none; right: 1lvh; bottom: -1lvh; height: 3lvh; width: auto; color: white; font-family: fredokaone; background-color: black; font-size: 1.75lvh; padding: 0.5lvh; border-radius: 1lvh">© 2026 Study Slooth. All Rights Reserved.</span><script>localStorage.setItem("bfb", "1"); if (localStorage.getItem("darkmode") == "1") { document.getElementById("copyrightnotice").style.filter = "invert(1)" } </script>
+<div id="reminders">
+<div class="srembg hidden" id="srem6"><div class="srem"><img src="../media/images/torafullbody.png" class="srimgtora"><div class="wrapbox"></div><div onclick="document.getElementById('srem6').classList.add('hidden'); document.getElementById('srem7').classList.remove('hidden')" class="srembutton">Got it!</div>Use the <img src="../media/images/add.png" class="imginsidetext"> and <img src="../media/images/delete.png" class="imginsidetext"> buttons to add and remove questions you want to study. You can have up to 300 questions and 300 answers.</div></div>
+<div class="srembg hidden" id="srem7">
+<div class="picture"><select class="category"><option>Biology and Life Science</option></select><div class="actualpics">
+<div style="background-image: url('../media/images/setcovers/1.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/2.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/3.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/4.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/5.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/6.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/7.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/8.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/9.png')" class="picselection2"></div>
+<div style="background-image: url('../media/images/setcovers/10.png')" class="picselection2"></div>
+</div></div>
+<div style="top: 69.75dvh" class="srem"><img src="../media/images/torafullbody.png" class="srimgtora"><div class="wrapbox"></div><div onclick="document.getElementById('srem7').classList.add('hidden')" class="srembutton">Got it!</div>Use the dropdown menu to select between 27 study subjects, each with 10 pictures to scroll through and pick from.</div></div>
 </div>
-<div id="secondpart" class="hidden">
-     <button class="hidden" id="finish" onclick="finish()">Done</button>
-   <button class="hidden" id="redo" onclick="redo()">Redo</button>
-  <div id="torabody2"></div>
-  <div id="torahead2"></div>
-  <div class="fmq2"><div id="lilgrayguy"></div></div>
-  <div id="fmq">
-    <div id="whitebit"></div>
-    <span id="sq"></span>
-  </div>
-  <div id="percentage">
-  <div id="middlecircle">
-    <span id="textim"></span>
-  </div>
-  <div id="frontcircle"></div>
-  </div>
+<div id="sidebar">
+<a href="../home/"><div style="top: 0dvh" class="hyperlink"><img src="../media/images/toolbar/home.png" class="hpimg"><p class=" hplabel">Home</p></div></a>
+<a href="../study/"><div style="top: 13.5dvh" class="hyperlink"><img src="../media/images/toolbar/study.png" class="hpimg"><p class="hplabel">Study</p></div></a>
+<a href="../play/"><div style="top: 27dvh" class="hyperlink"><img src="../media/images/toolbar/play.png" class="hpimg"><p class="hplabel">Play</p></div></a>
+<a href="../sets/"><div style="top: 40.5dvh" class="hyperlink"><img src="../media/images/toolbar/sets.png" class="hpimg"><p class="hplabel">Sets</p></div></a>
+<a><div style="top: 54dvh" class="hyperlink selected"><img src="../media/images/toolbar/createselected.png" class="hpimg"><p class="hplabel selected">Create</p></div></a>
+<a href="../import/"><div style="top: 67.5dvh" class="hyperlink"><img src="../media/images/toolbar/import.png" class="hpimg"><p class="hplabel">Import</p></div></a>
+<a href="../settings/"><div style="top: 85.5dvh" class="hyperlink"><img src="../media/images/toolbar/settings.png" class="hpimg"><p class="hplabel">Settings</p></div></a>
+
 </div>
-<div class="hidden" id="awall"></div>
+<div id="content">
+<div id="heading">
+<div id="fadedbg"></div><span id="nameofset"></span></div>
+<div id="manifest">Manifest
+<p style="top: 1dvh" class="lfm">Set Name: </p>
+<textarea placeholder="Set Name Here..." style="top: 7dvh" class="mb"></textarea>
+<p style="top: 8.5dvh" class="lfm">Set Author: </p>
+<textarea placeholder="Author's Name Here..." style="top: 14.5dvh" class="mb"></textarea>
+<div id="picture">
+<select onchange="changeimgs()" id="category"></select>
+<div id="actualpics">
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+<div onclick="selectapic()" class="picselection"></div>
+</div>
+</div>
+</div>
+
+<div id="qaa">Questions/Answers
+<img onclick="addgroup()" src="../media/images/add.png" id="addquestion">
+<div id="actualquestions">
+</div>
+</div>
+
+<div onclick="save()" id="savebutton">Save</div>
+
+</div>
 </body>
 <style>
-  #lildropdown {
-  border: none;
-  border-radius: 3dvh;
-  width: 9dvh;
-  height: 9dvh;
-  position: absolute;
-  left: calc(50% + 8dvh);
-  top: 50dvh;
-  background-color: white;
-  color: #c12020;
-  transition: 0.6s;
-  z-index: 3000;
-  font-size: 2dvh;
-  font-family: fredokaone;
-}
-#microphone {
+.srembg {
+  z-index: 10000;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
-  position: absolute;
   top: 0;
   left: 0;
 }
-#audio {
+.imginsidetext {
+  height: 3.5dvh;
+  width: 3.5dvh;
+  position: relative;
+  vertical-align: baseline;
+}
+.wrapbox {
+  position: relative;
+  float: right;
+  width: 19dvh;
+  height: 43.28dvh;
+  margin-right: -9.2dvh;
+  shape-outside: inset(20dvh 0 0 0); /* 20dvh empty space above */
+  clip-path: inset(20dvh 0 0 0); /* for visual debug */
+}
+  .srembutton {
+    background-color: white;         
+    height: 4.5dvh;
+    width: 12.5dvh;
+    color: #c12020;
+    outline: 1.5dvh solid #c12020;
+    font-family: fredokaone;
+    font-size: 3.5dvh;
+    text-align: center;
+    position: absolute;
+    border: none;
+    border-radius: 1dvh;
+    bottom: -3dvh;
+    left: 8.102dvh;
+  }
+  .srimgtora {
+    width: 18dvh;
+    height: 22.28dvh;
+    position: absolute;
+    bottom: -2dvh;
+    right: -8.604dvh;
+  }
+  .srem {
+    font-size: 3.5dvh;
+    color: #c12020;
+    text-align: left;
+    word-wrap: break-word;
+    
+    background-color: white;
+    outline: 2dvh solid #c12020;
+    border-radius: 2dvh;
+    padding: 1dvh;
+    width: 36dvh;
+    height: 36dvh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+  }
+.deletegroup {
+  width: 4dvh;
+  height: 4dvh;
+  top: 50%;
+  transform: translate(0%, -50%);
+  right: 1dvh;
+  position: absolute;
+}
+.blank {
+  color: white;
+  font-family: fredokaone;
+  width: 100%;
+  border: none;
+  resize: none;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0);
+  height: calc(100% - 3dvh);
+  bottom: 0;
+  position: absolute;
+}
+.answer {
   overflow: hidden;
+  color: white;
+  white-space: nowrap;
+  font-size: 2.5dvh;
+  font-weight: normal;
+  text-align: left;
+  width: calc((100% - 8dvh) / 2);
+  height: 12dvh;
+  border-radius: 1dvh;
+  background-color: black;
+  position: absolute;
+  right: 6dvh;
+  top: 1dvh;
+}
+.question {
+  overflow: hidden;
+  color: white;
+  white-space: nowrap;
+  font-size: 2.5dvh;
+  font-weight: normal;
+  text-align: left;
+  width: calc((100% - 8dvh) / 2);
+  height: 12dvh;
+  border-radius: 1dvh;
+  background-color: black;
+  position: absolute;
+  left: 1dvh;
+  top: 1dvh;
+}
+#actualquestions {
+  width: 100%;
+  height: calc(100% - 10dvh);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  overflow-y: scroll;
+}
+.qgroup {
+  overflow: hidden;
+  top: 0.5dvh;
+  width: calc(100% - 3dvh);
+  height: 14dvh;
+  border-radius: 1dvh;
+  left: 1.5dvh;
+  outline: 0.5dvh solid black;
+  position: absolute;
+}
+#addquestion {
+  height: 4dvh;
+  width: 4dvh;
   left: 50%;
   transform: translate(-50%, 0%);
-  top: 48.5dvh;
-  height: 12.5dvh;
-  width: 12.5dvh;
-  background-color: white;
+  top: 4.5dvh;
   position: absolute;
-  border-radius: 3dvh;
-  transition: 0.6s;
-  border: none;
-  z-index: 3000;
 }
-#awall { 
-  width: 100dvw;
-  height: 100dvh;
+#qaa {
+  width: calc(100% - 8dvh);
+  height: 50.5dvh;
+  border-radius: 1dvh;
+  position: absolute;
+  outline: 1.5dvh solid black;
+  left: 4dvh;
+  bottom: 4dvh;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3.5dvh;
+}
+#savebutton {
+  background-color: white;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  bottom: 1.5dvh;
+  width: 10dvh;
+  height: 5dvh;
+  font-size: 4dvh;
+  border-radius: 1dvh;
+  outline: 1.5dvh solid black;
+  text-align: center;
+  color: black;
+  position: absolute;
+}
+#actualpics {
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100% - 3dvh);
+  left: 0;
+  position: absolute;
+  bottom: 0;
+}
+.actualpics {
+  width: 100%;
+  overflow: hidden;
+  height: calc(100% - 3dvh);
+  left: 0;
+  position: absolute;
+  bottom: 0;
+}
+.selectedpic {
+  filter: brightness(150%);
+  outline: 1dvh solid black;
+}
+.selectedpicdarkmode {
+  backdrop-filter: brightness(67%);
+  outline: 1dvh solid white;
+}
+.picselection {
+  outline-offset: -1dvh;
+  background-size: cover;
+  background-position: 50% 50%;
+  position: absolute;
+  top: 1dvh;
+  height: 8dvh;
+  border-radius: 1dvh;
+}
+.picselection2 {
+  outline-offset: -1dvh;
+  background-size: cover;
+  background-position: 50% 50%;
+  position: absolute;
+  top: 1dvh;
+  height: 8dvh;
+  border-radius: 1dvh;
+}
+#category {
+  width: 100%;
+  height: 3dvh;
   left: 0;
   top: 0;
-  position: fixed;
-  background-color: white;
-  z-index: 2002;
-}
-  .imcq {
-    user-select: none;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    text-align: center;
-    font-size: 3dvh;
-    transform: translateY(-50%);
-    color: white;
-  }
-.mcqfrfr {
-  cursor: pointer;
-  width: calc((100dvw - 22.4dvh) / 2);
-  height: 14dvh;
   position: absolute;
-  outline: 0.6dvh solid white;
-  border-radius: 2dvh;
-  z-index: 2000;
-  transition: 0.6s;
+  border-radius: 0;
+  border: 0;
+  background-color: black;
+  color: white;
 }
-#question2 {
-  width: calc(100% - 20dvh);
-    left: 50%;
-    top: 50%;
-    height: 28dvh;
-    position: absolute;
-    overflow-y: scroll;
-    color: #c12020;
-    transform: translate(-50%, -50%);
-    border-radius: 3dvh;
-    word-wrap: break-word;
-    transition: 0.6s opacity;
-    z-index: -1;
+.category {
+  pointer-events: none;
+  width: 100%;
+  height: 3dvh;
+  left: 0;
+  top: 0;
+  position: absolute;
+  border-radius: 0;
+  border: 0;
+  background-color: black;
+  color: white;
 }
-#circles {
-  width: 100dvw;
+.picture {
+  width: calc(((100% - 14.75dvh) - 8dvh) / 2 - 2.5dvh);
+  height: 13dvh;
+  outline: 0.5dvh solid black;
+  background-color: white;
+  border-radius: 0.5dvh;
+  position: absolute;
+  right: 5.5dvh;
+  top: 26.5dvh;
+}
+#picture {
+  width: calc(0.5 * (100% - 5dvh));
+  height: 13dvh;
+  outline: 0.5dvh solid black;
+  border-radius: 0.5dvh;
+  position: absolute;
+  right: 1.5dvh;
+  bottom: 2dvh;
+}
+.mb {
+  position: absolute;
+  outline: 0.5dvh solid black;
+  font-size: 2.5dvh;
+  height: 3.5dvh;
+  width: calc(0.5 * (100% - 5dvh));
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  font-family: fredokaone;
+  border-radius: 0.5dvh;
+  left: 1.5dvh;
+  resize: none;
+}
+.lfm {
+  position: absolute;
+  left: 1dvh;
+  text-align: left;
+  font-size: 2.5dvh;
+  font-weight: normal;
+}
+#manifest {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3.5dvh;
+  width: calc(100% - 8dvh);
+  height: 20dvh;
+  left: 50%;
+  border-radius: 1dvh;
+  transform: translate(-50%, 0%);
+  top: 21.5dvh;
+  position: absolute;
+  outline: 1.5dvh solid black;
+}
+.obj {
+  background-size: cover;
+  background-position: 50% 50%;
+  position: absolute;
+  height: 4dvh;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3.5dvh;
+  top: 1.5dvh;
+  border-radius: 1dvh;
+  outline: 1.5dvh solid black;
+}
+#insidetoolbar {
+  width: 43dvh;
+  height: 100%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0%);
+}
+#toolbar {
+  width: 100%;
+  height: 7dvh;
+  top: 20dvh;
+  position: absolute;
+}
+#fadedbg {
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
+  position: absolute;
+  background-size: cover;
+  background-position: 50% 50%;
+  opacity: 0.5;
+}
+#nameofset {
+  width: 100%;
+  text-align: center;
+  height: auto;
+  position: absolute;
+  word-wrap: break-word;
+  left: 50%;
+  font-size: 6dvh;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+@font-face {
+  font-family: fredokaone;
+  src: url("../media/fonts/fredokaone.otf");
+}
+body {
+  font-family: fredokaone;
+}
+#logo {
+  height: 90%;
+  width: auto;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.selected {
+  color: white;
+  background-color: #c12020;
+}
+.hpimg {
+  top: 1.5dvh;
+  left: 1.5dvh;
+  width: 9dvh;
+  position: absolute;
+  height: 9dvh;
+}
+.hplabel {
+  width: 100%;
+  position: absolute;
+  font-weight: bold;
+  text-align: center;
+  left: 50%;
+  bottom: 0.75dvh;
+  height: auto;
+  transform: translate(-50%, 0%);
+}
+.hyperlink {
+  color: #c12020;
+  position: absolute;
+  width: 9dvh;
+  padding: 1.5dvh;
+  height: 12dvh;
+  font-size: 2dvh;
+}
+.author {
+  font-size: 2dvh;
+  font-weight: normal;
+}
+.insidetext {
+  font-weight: bold;
+  font-size: 3dvh;
+  position: absolute;
+  padding: 0;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.group {
+  height: 15dvh;
+  outline: 1.5dvh solid black;
+  border-radius: 1.5dvh;
+  overflow: hidden;
+  position: absolute;
+  background-size: cover;
+  background-position: 50% 50%;
+  filter: brightness(150%);
+}
+#groups {
+  width: 100%;
+  position: absolute;
+  top: 21dvh;
+  height: 200%;
+}
+#heading {
+  z-index: 2;
   position: fixed;
   overflow: hidden;
-  height: 100dvh;
+  width: calc(100% - 14.75dvh);
+  height: 17.5dvh;
+  background-color: #c12020;
+  right: 0;
+  top: 0;
 }
-#question {
-   scrollbar-width: none; /* Hides scrollbar in Firefox */
-   -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
-}
-#question::-webkit-scrollbar {
-   display: none; /* Hides scrollbar in Chrome, Safari, and Opera */
-}
-#question2 {
-   scrollbar-width: none; /* Hides scrollbar in Firefox */
-   -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
-}
-#question2::-webkit-scrollbar {
-   display: none; /* Hides scrollbar in Chrome, Safari, and Opera */
-}
-#time {
-  width: 40dvh;
-  border: none;
-  overflow: auto;
-  padding:: 0;
-  white-space: nowrap;
-  box-sizing: content-box;
-    left: 50%;
-    height: 14dvh;
-    position: absolute;
-    top: 40dvh;
-    border-radius: 3dvh;
-    border: none;
-    transform: translateX(-50%);
-    font-size: 10dvh;
-    font-family: fredokaone;
-    color: #c12020;
-    padding: 2dvh 2dvh 4dvh 2dvh;
-    resize: none;
-    transition: 0.6s opacity;
-    text-align: center;
-}
-#finish:hover {
-  outline: 1.5dvh solid #c12020;
-}
-#redo:hover {
-  outline: 1.5dvh solid #c12020;
-}
-#finish {
-  width: 12dvh;
-  height: 6dvh;
-  border-radius: 2dvh;
-  border: none;
-  outline: 1.5dvh solid #efefef;
-  background-color: white;
-  color: #c12020;
-  left: calc(50% - 15dvh);
-  bottom: 54dvh;
+#content {
   position: absolute;
-  z-index: 2;
-  font-family: fredokaone;
-  font-size: 3.5dvh;
-  cursor: pointer;
-  transition: 0.6s opacity;
+  width: calc(100% - 14.75dvh);
+  height: 100%;
+  right: 0;
+  top: 0;
+  background-image: url("../media/images/whitebg.png");
+  background-position: 50% 50%;
+  background-size: cover;
+  overflow: hidden;
 }
-#redo {
-  width: 12dvh;
-  height: 6dvh;
-  border-radius: 2dvh;
-  border: none;
-  outline: 1.5dvh solid #efefef;
-  background-color: white;
-  color: #c12020;
-  left: calc(50% + 3dvh);
-  bottom: 54dvh;
+.halfwhite {
+  top: 0;
+  left: 0;
   position: absolute;
-  z-index: 2;
-  font-family: fredokaone;
-  font-size: 3.5dvh;
-  cursor: pointer;
-  transition: 0.6s opacity;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.5);
 }
-#torahead2 {
-    z-index: 1001;
-    transform: translate(-50%, -50%);
-    width: 18.41dvh;
-    height: 12.90dvh;
-    position: absolute;
-    bottom: 5.71dvh; /*+1*/
-    left: 50%;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-image: url("toraheadnormal.png");
-    transition: 0.8s transform;
-    
-  }
-  #torabody2 {
-    bottom: 2.9dvh;
-    right: calc(50% - 7.2dvh);
-    position: absolute;
-    width: 17.56dvh;
-    height: 13.42dvh;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-image: url("torabody.png");
-    z-index: 1000;
-  }
-  #lilgrayguy {
-    position: absolute;
-    top: 12dvh;
-    left: 0;
-    width: 100%;
-    height: 3dvh;
-    background-image: linear-gradient(rgba(0,0,0,0), #efefef);
-    z-index: 1;
-    pointer-events: none;
-  }
-  #sq {
-    width: calc(100% - 3dvh);
-    text-align: center;
-    color: black;
-    top: 0.5dvh;
-    left: 3.5dvh;
-    position: absolute;
-    z-index: 0;
-    font-size: 2.5dvh;
-    white-space: nowrap;
-  }
-  #whitebit {
-    z-index: 1;
-    width: 110%;
-    right: -5%;
-    top: -5%;
-    position: absolute;
-    background-color: white;
-    height: 110%;
-    transition: 1.5s;
-  }
-  #fmq {
-    width: calc(100% - 16dvh);
-    height: 15dvh;
-    top: 22.5dvh;
-    background-color: #efefef;
-    position: absolute;
-    right: 3dvh;
-    border-radius: 3dvh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  .fmq2 {
-    width: calc(100% - 16dvh);
-    height: 15dvh;
-    top: 22.5dvh;
-    background-color: #efefef;
-    position: absolute;
-    right: 3dvh;
-    border-radius: 3dvh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  #textim {
-    color: white;
-    transition: 2s;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    font-size: 10dvh;
-  }
-  #middlecircle {
-    width: 67.5%;
-    height: 67.5%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 50%;
-    z-index: 1; 
-  }
-  #percentage {
-    z-index: 2;
-    width: 45dvh;
-    height: 45dvh;
-    border-radius: 22.5dvh;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: 2s;
-  }
-  #frontcircle {
-    width: 110%;
-    height: 110%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    background-color: white;
-  }
-  #secondpart {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2003;
-  }
-  #firstpart {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    overflow-y: hidden;
-    top: 0;
-    left: 0;
-  }
-  .hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-  #gatb {
-    width: 100%;
-    height: 10dvh;
-    top: 20dvh;
-    position: fixed;
-    background-image: linear-gradient(rgba(0, 0, 0, 0), #efefef);
-    z-index: 1;
-    pointer-events: none;
-  }
-  #showanswer {
-    overflow-y: scroll;
-    width: 100%;
-    height: 20dvh;
-    left: 0;
-    top: 10dvh;
-    position: absolute;
-  }
-  #torahead {
-    z-index: 2;
-    transform: translate(-50%, -50%);
-    width: 18.41dvh;
-    height: 12.90dvh;
-    position: absolute;
-    top: -8.31dvh;
-    right: -5.2dvh;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-image: url("toraheadnormal.png");
-    transition: 0.8s transform;
-  }
-  #torabody {
-    top: -5.5dvh;
-    right: 6.03dvh;
-    position: absolute;
-    width: 17.56dvh;
-    height: 13.42dvh;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-image: url("torabody.png");
-  }
-  #qtext {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    text-align: center;
-    font-size: 4.5dvh;
-    transform: translateY(-50%);
-  }
-  #qtext2 {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-size: 25dvh;
-    transform: translateY(-50%);
-  }
-  button {
-  font-family: fredokaone;
-  }
-  @font-face {
-  font-family: fredokaone;
-  src: url("FredokaOne-Regular.otf");
-  }
-  textarea {
-    font-family: fredokaone;
-  }
-  body {
-    font-family: fredokaone;
-    overflow: hidden;
-  }
-  #question {
-    width: calc(100% - 8dvh);
-    left: 4dvh;
-    top: 18dvh;
-    height: 20dvh;
-    position: absolute;
-    overflow-y: scroll;
-    color: #c12020;
-    border-radius: 3dvh;
-    word-wrap: break-word;
-    transition: 0.6s opacity;
-    scrollbar-width: none; /* Hides scrollbar in Firefox */
-    -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
-  }
-  #answer {
-    width: 30dvh;
-    height: 6dvh;
-    z-index: -5000;
-    opacity: 0;
-    pointer-events: none; 
-    top: 3dvh;
-    left: 3dvh;
-    color: black;
-  }
-  #answer56 {
-    width: 30dvh;
-    height: 6dvh;
-    z-index: -5000;
-    opacity: 0;
-    pointer-events: none; 
-    top: 3dvh;
-    left: 3dvh;
-    color: black;
-  }
-  #loadbar {
-  }
-  #x {
-    color: #c12020;
-    font-size: 10dvh;
-    text-align: center;
-    width: 14.5dvh;
-    height: 12.5dvh;
-    position: absolute;
-    right: 0;
-    top: 1dvh;
-    transition: 1.4s color;
-  }
-  #insloadbar {
-    height: 100%;
-    transition: 0.6s;
-    left: 0;
-    top: 0;
-    border-radius: 5dvh;
-    position: absolute;
-    background-color: #c12020;
-    width: 0;
-  }
-  #popup {
-    z-index: 0;
-    width: calc(100% - 4.75dvh);
-    height: 100dvh;
-    background-color: #efefef;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    top: 90dvh;
-    border-radius: 4.5dvh;
-    transition: 1.4s;
-  }
-  #title {
-    left: 2dvh;
-    top: 2dvh;
-    width: calc(100% - 4dvh);
-    position: absolute;
-    font-size: 6dvh;
-    transition: 0.6s color;
-    color: #efefef;
-  }
-  #desc {
-    left: 2dvh;
-    width: calc(100% - 4dvh);
-    position: absolute;
-    font-size: 6dvh;
-    transition: 2s color;
-    color: #000000;
-    font-size: 3dvh;
-    word-wrap: break-word;
-  }
-  #question::-webkit-scrollbar {
-  display: none;
-}
-#check {
-  width: 12dvh;
-  height: 6dvh;
-  border-radius: 2dvh;
-  border: none;
-  outline: 1.5dvh solid #efefef;
+#sidebar {
   background-color: white;
-  color: #c12020;
-  right: 5dvh;
-  bottom: 34dvh;
-  position: absolute;
-  z-index: 2;
-  font-family: fredokaone;
-  font-size: 3.5dvh;
-  cursor: pointer;
-  transition: 0.6s opacity;
-}
-  body {
-    transition: 1.4s background-color;
-    overflow-y: hidden;
-  }
-#next {
+  outline: 3dvh solid #c12020;
   width: 12dvh;
-  height: 6dvh;
-  border-radius: 2dvh;
-  border: none;
-  outline: 1.5dvh solid #efefef;
-  background-color: white;
-  color: #c12020;
-  right: 2.625dvh;
-  top: 31.5dvh;
+  left: 0;
+  top: 0;
+  height: 100%;
+  position: fixed;
+}
+.darkmodehyperlink {
+  color: white;
   position: absolute;
-  z-index: 2;
+  width: 9dvh;
+  padding: 1.5dvh;
+  height: 12dvh;
+  font-size: 2dvh;
+}
+select {
   font-family: fredokaone;
-  font-size: 3.5dvh;
-  cursor: pointer;
 }
-#check:hover {
-  outline: 1.5dvh solid #c12020;
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
-#next:hover {
-  outline: 1.5dvh solid #c12020;
-}
-/* Hide scrollbar for IE, Edge and Firefox */
-#question {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-  .sqq {
-    width: calc(100% - 7dvh);
-    right: 1dvh;
-    top: 4.5dvh;
-    background-color: white;
-    border-radius: 0.5dvh;
-    position: absolute;
-    padding: 0.5dvh;
-    word-wrap: break-word;
-  }
-
-  .sqqdm {
-    width: calc(100% - 7dvh);
-    right: 1dvh;
-    top: 4.5dvh;
-    background-color: black;
-    border-radius: 0.5dvh;
-    position: absolute;
-    padding: 0.5dvh;
-    color: white;
-    word-wrap: break-word;
-  }
 </style>
 <script>
-sessionStorage.setItem("setToUse", "1");
-words = ["Paris", "Berlin", "House", "Cat", "Fries"];
-for (i = 1; i <= 5; i++) {
-  localStorage.setItem(`1q${i}`, `Question ${words[i-1]}?`);
-  localStorage.setItem(`1a${i}`, `Answer ${words[i-1]}.`);
+if (localStorage.getItem("rem6") != "1") {
+  document.getElementById("srem6").classList.remove("hidden");
+  localStorage.setItem("rem6", "1");
 }
-localStorage.setItem("1qat", "5");
-localStorage.setItem("darkmode", "0");
-if (localStorage.getItem("darkmode") == "1") {
-  document.getElementById("awall").style.backgroundColor = "black";
-  document.getElementById("time").style.backgroundColor = "#3a3a3a";
-  document.getElementById("time").style.color = "white";
-  document.getElementById("question").style.color = "white";
-  document.getElementById("title").transition = "none";
-  window.innerHeight;
-  document.getElementById("title").style.color = "#3a3a3a";
-  window.innerHeight;
-  document.getElementById("title").style.transition = "0.3s color";
-  document.body.style.backgroundColor = "black";
-  document.getElementById("check").style.outline = "1.5dvh solid #3a3a3a";
-  document.getElementById("check").style.backgroundColor = "black";
-  document.getElementById("redo").style.outline = "1.5dvh solid #3a3a3a";
-  document.getElementById("redo").style.backgroundColor = "black";
-  document.getElementById("finish").style.outline = "1.5dvh solid #3a3a3a";
-  document.getElementById("finish").style.backgroundColor = "black";
-  document.getElementById("popup").style.backgroundColor = "#3a3a3a";
-  document.getElementById("question").style.color = "white";
-  document.getElementById("whitebit").style.backgroundColor = "black";
-  document.getElementById("fmq").style.backgroundColor = "#3a3a3a";
-  document.getElementById("lilgrayguy").style.backgroundImage = "linear-gradient(rgba(0,0,0,0), #3a3a3a)";
-  document.getElementById("middlecircle").style.backgroundColor = "black";
-  document.getElementById("frontcircle").style.backgroundColor = "black";
-  document.getElementById("sq").style.color = "white";
-  document.getElementById("textim").style.color = "black";
-  document.getElementById("time").style.color = "white";
-  document.getElementById("time").style.backgroundColor = "#3a3a3a";
+if (localStorage.getItem("numofsets")) {} else {
+  localStorage.setItem("numofsets", "0");
 }
-
-if (sessionStorage.getItem("setToUse")) {
-current = sessionStorage.getItem("setToUse");
-sessionStorage.removeItem("setToUse");
+if (localStorage.getItem("numofsets") == "10") {
+  window.location.href = "../sets/toomanysets.html";
 } else {
-window.location.href = "studyurlerror.html";
+  current = (parseInt(localStorage.getItem("numofsets")) + 1).toString();
 }
-currentq = 1;
-congratsmsg = ["Great Job!", "Perfect!", "Nice Work!", "Good Work!", "Good Job!"];
-nopemsg = ["Oops", "Not quite", ":(", "Not exactly", "Erm, actually..."];
-clbl = 0;
-function finish() {
-  window.location.href = "study".concat(current, ".html");
-}
-function redo() {
-  sessionStorage.setItem("stu", current);
-  sessionStorage.setItem("wpr", "hotseat");
-  window.location.href = "justamoment.html";
-}
-con = [];
-allnumbers = [];
-while (parseInt(localStorage.getItem(current.concat("qat"))) != allnumbers.length) {
-  randomNum = Math.floor(Math.random() * parseInt(localStorage.getItem(current.concat("qat")))) + 1;
-  if (allnumbers.indexOf(randomNum) == -1) {
-    allnumbers.push(randomNum);
+numq = 0;
+function removegroup() {
+  for (i = 0; i < document.getElementsByClassName("deletegroup").length; i++) {
+    if (event.target == document.getElementsByClassName("deletegroup")[i]) {
+      groupToDelete = i;
+      break;
+    }
   }
-}
-currentdq = 0;
-audio = false;
-let recognition = null;
-let finalTranscript = "";
-let restartTimer = null;
-function comparetwo(yco, ycidk) {
-    newword = "";
-    allwords = [];
-    alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    thequestion = ycidk.toLowerCase();
-    for (i = 0; i < thequestion.length; i++) {
-      if (i+1 == thequestion.length) {
-        if (alphabet.indexOf(thequestion[i]) != -1) {
-        allwords.push(newword.concat(thequestion[i]));
-        } else if (newword != "") {
-        allwords.push(newword);
-        }
-      } else if (alphabet.indexOf(thequestion[i]) != -1) {
-        newword = newword.concat(thequestion[i]);
-      } else {
-        if (newword != "") {
-        allwords.push(newword);
-        }
-        newword = "";
-      }
-    }
-    newword = "";
-    allwordsa = [];
-    thequestion = yco.toLowerCase();
-    for (i = 0; i < thequestion.length; i++) {
-      if (i+1 == thequestion.length) {
-        if (alphabet.indexOf(thequestion[i]) != -1) {
-        allwordsa.push(newword.concat(thequestion[i]));
-        } else if (newword != "") {
-        allwordsa.push(newword);
-        }
-      } else if (alphabet.indexOf(thequestion[i]) != -1) {
-        newword = newword.concat(thequestion[i]);
-      } else {
-        if (newword != "") {
-        allwordsa.push(newword);
-        }
-        newword = "";
-      }
-    }
-    nallwords = [];
-    unimportantWords = [
-  "a","an","the","about","above","across","after","against","along","amid","among","around",
-  "at","before","behind","below","beneath","beside","between","beyond","by","despite","down",
-  "during","except","for","from","in","inside","into","near","of","off","on","onto","out",
-  "outside","over","since","through","throughout","till","to","toward","under","underneath",
-  "until","up","upon","with","within","without",
-  "der","die","das","ein","eine","einer","einem","einen","eines","dem","den","des",
-  "an","auf","aus","bei","durch","für","gegen","hinter","in","mit","nach","neben","ohne",
-  "seit","um","unter","über","von","vor","während","wegen","zu","zum","zur",
-  "il","lo","la","i","gli","le","un","una","uno","del","della","dello","dei","degli","dell'",
-  "a","da","di","in","su","con","tra","fra","sopra","sotto","senza","dopo","prima","fino","entro",
-  "le","la","les","un","une","des","du","de","d'","au","aux",
-  "à","chez","dans","en","sur","sous","devant","derrière","par","pour","sans","vers",
-  "avec","entre","pendant","jusqu’à","depuis","avant","après","près","autour",
-  "el","la","los","las","un","una","unos","unas","al","del",
-  "a","ante","bajo","con","contra","de","desde","en","entre","hacia","hasta",
-  "sin","sobre","tras","durante","mediante",
-  "and","or","but","nor","so","yet","for","although","because","since","unless","while","whereas","if","as","though","even","once","when",
-  "und","oder","aber","denn","doch","sondern","obwohl","weil","da","wenn","falls","sowie","solange","bis","bevor","nachdem","während","obgleich",
-  "e","o","ma","né","però","anche se","poiché","dato che","quando","finché","se","mentre","perché","come","anche","appena","fino a",
-  "et","ou","mais","ni","car","donc","tandis que","parce que","puisque","lorsque","si","quoique","bien que","comme","pendant que","avant que","après que",
-  "y","o","pero","ni","aunque","porque","pues","ya que","mientras","cuando","hasta que","si","como","una vez que"
-];
-
-    for (i = 0; i < allwords.length; i++) {
-      if (unimportantWords.indexOf(allwords[i]) == -1) {
-        nallwords.push(allwords[i]);
-      }
-    }
-    allwords = nallwords;
-    nallwords = [];
-    for (i = 0; i < allwordsa.length; i++) {
-      if (unimportantWords.indexOf(allwordsa[i]) == -1) {
-        nallwords.push(allwordsa[i]);
-      }
-    }
-    allwordsa = nallwords;
-    numtobeat = allwordsa.length * 0.85;
-    numhave = 0;
-    for (i = 0; i < allwords.length; i++) {
-      if (allwordsa.indexOf(allwords[i]) > -1) {
-        ogi = i;
-        if (allwordsa.indexOf(allwords[i]) <= i) {
-          i--;
-        }
-        eindex = allwordsa.indexOf(allwords[ogi]);
-        allwords.splice(allwords[ogi], 1);
-        allwordsa.splice(eindex, 1);
-        numhave++; 
-      }
-    }
-    correcton = numhave >= numtobeat;
-    return correcton;
-}
-answerBox = document.getElementById("answer");
-// 1. CRITICAL: Declare this globally (outside the function) so the timer persists
-let checkTimeout;
-
-function toggleaudio() {
-    const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-        alert("Speech recognition not supported.");
-        return;
-    }
-
-    if (!audio) {
-        audio = true;
-        document.getElementById("microphone").src =
-            "microphonered.png";
-
-        recognition = new SpeechRecognition();
-
-        recognition.lang =
-            document.getElementById("lildropdown").value;
-
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 1;
-
-        recognition.onresult = (event) => {
-
-            let spokenText = "";
-
-            // ONLY PROCESS NEW RESULTS
-            for (
-                let i = event.resultIndex;
-                i < event.results.length;
-                i++
-            ) {
-                spokenText += event.results[i][0].transcript + " ";
-            }
-
-            spokenText = spokenText
-                .toLowerCase()
-                .replace(/[^\w\s]/g, "")
-                .replace(/\s+/g, " ")
-                .trim();
-
-            document.getElementById("answer").value =
-                spokenText;
-
-            const options =
-                document.getElementsByClassName("imcq");
-
-            for (let u = 0; u < options.length; u++) {
-
-                const optionText = options[u].textContent
-                    .toLowerCase()
-                    .replace(/[^\w\s]/g, "")
-                    .replace(/\s+/g, " ")
-                    .trim();
-
-                if (comparetwo(optionText, spokenText)) {
-                    checkanswer(u);
-                    return;
-                }
-            }
-        };
-
-        recognition.onerror = (event) => {
-            console.log(event.error);
-        };
-
-        recognition.onend = () => {
-            if (audio) {
-                recognition.start();
-            }
-        };
-
-        recognition.start();
-
-    } else {
-
-        audio = false;
-
-        document.getElementById("microphone").src =
-            "microphone.png";
-
-        if (recognition) {
-            recognition.onend = null;
-            recognition.stop();
-            recognition = null;
-        }
-    }
-}
-    
-function next2() {
-  document.getElementById("time").style.pointerEvents = "none";
-  pose("happy");
-
-  document.getElementById("question").style.opacity = 0;
-  document.getElementById("time").style.opacity = 0;
-  document.getElementById("check").style.opacity = 0;
-  document.body.style.backgroundColor = "#c12020";
-  document.getElementById("popup").style.backgroundColor = "#930000";
-  document.getElementById("popup").style.top = "50dvh";
-  document.getElementById("x").style.color = "white";
-  setTimeout(function() {
-    document.getElementById("question2").classList.remove("hidden");
-    document.getElementById("qtext").style.fontSize = "4.5dvh";
-    document.getElementById("qtext").innerHTML = secondstostring(parseInt(document.getElementById("time").value));
-    document.getElementById("qtext").style.color = "white";
-    document.getElementById("question").style.zIndex = 10;
-    document.getElementById("question").style.opacity = 1;
-    document.getElementById("question").style.top = '5.5dvh';
-    document.getElementById("question2").style.top = '36dvh';
-    document.getElementsByClassName("mcqfrfr")[0].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[1].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[2].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[3].style.opacity = 1;
-    document.getElementById("audio").style.opacity = 1;
-    document.getElementById("lildropdown").style.opacity = 1;
-    pose("normal");
-  }, 800)
-  setTimeout(function() {
-    document.getElementById("qtext2").innerHTML = "3";
-  }, 1600)
-  setTimeout(function() {
-    document.getElementById("qtext2").innerHTML = "2";
-  }, 2600)
-  setTimeout(function() {
-    document.getElementById("qtext2").innerHTML = "1";
-  }, 3600)
-  setTimeout(function() {
-    secondsLeft = parseInt(document.getElementById("time").value);
-    startTimer();
-    document.body.style.transition = "0.6s background-color";
-    accyAnswer = Math.floor(Math.random() * 4);
-    document.getElementsByClassName("mcqfrfr")[0].style.pointerEvents = "auto";
-    document.getElementsByClassName("mcqfrfr")[1].style.pointerEvents = "auto";
-    document.getElementsByClassName("mcqfrfr")[2].style.pointerEvents = "auto";
-    document.getElementsByClassName("mcqfrfr")[3].style.pointerEvents = "auto";
-    document.getElementById("audio").style.pointerEvents = "auto";
-    document.getElementById("lildropdown").style.pointerEvents = "auto";
-    thearray = [];
-    for (i = 0; i < 4; i++) {
-      if (i == accyAnswer) {
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", allnumbers[currentdq].toString()));
-      } else {
-        bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        while (thearray.indexOf(bru67) != -1 || bru67 == allnumbers[currentdq]-1) {
-          bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        }
-        thearray.push(bru67);
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", (bru67 + 1).toString()));
-      }
-    }
-    thearray = [];
-    document.getElementById("qtext2").style.fontSize = "5.5dvh";
-    document.getElementById("qtext2").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentdq].toString()));
-  }, 4600)
-}
-numcorrect = 0;
-function checkanswer(hahahhh) {
-  oneclicked = hahahhh;
-  if (audio) { toggleaudio() }
-  document.getElementById("answer").value = "";
-  if (oneclicked == accyAnswer) {
-    con.push(1);
-    pose("happy");
-    numcorrect++;
-    for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[i].style.pointerEvents = "none";
-    }
-    document.getElementById("audio").style.pointerEvents = "none";
-    document.getElementById("lildropdown").style.pointerEvents = "none";
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.backgroundColor = "rgb(45, 204, 112)";
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.outlineWidth = "1dvh";
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.width = "calc((100dvw - 20dvh) / 2)"
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.fontWeight = "bold";
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.boxShadow = "0dvh 0dvh 10dvh rgba(45,204,112,0.8)";
-    document.getElementsByClassName("mcqfrfr")[accyAnswer].style.zIndex = 2001; 
-    for (i = 0; i < 4; i++) {
-      if (i != accyAnswer) {
-        document.getElementsByClassName("mcqfrfr")[i].style.backgroundColor = "rgba(255, 133, 0, 1)";
-        document.getElementsByClassName("mcqfrfr")[i].style.opacity = 0.5;
-      }
-    }
-    if (!gameEnd) { setTimeout(function() {
-      document.getElementById("question2").style.opacity = 0;
-      for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[i].style.opacity = 0;
-    }
-      document.getElementById("audio").style.opacity = 0;
-      document.getElementById("lildropdown").style.opacity = 0;
-    }, 600) }
-    if (!gameEnd) { setTimeout(function() {
-    for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[0].remove();
-      if (!gameEnd) {
-      newDiv = document.createElement("div");
-      newDiv.classList.add("hidden");
-      newDiv.classList.add("mcqfrfr");
-      newDiv.id = (i+1).toString().concat("mcq");
-      newSpan = document.createElement("span");
-      newDiv.style.transition = "0.6s";
-      newSpan.classList.add("imcq");
-      newSpan.id = (i+1).toString().concat("imcq");
-      newDiv.appendChild(newSpan);
-      if ((i+1) % 2 == 0) {
-        newDiv.style.right = "10.6dvh";
-      } else {
-        newDiv.style.left = "10.6dvh";
-      }
-      if ((i+1) > 2) {
-        newDiv.style.top = "81.1dvh";
-      } else {
-        newDiv.style.top = "65.5dvh";
-      }
-      document.body.appendChild(newDiv);
-      }
-    }
-    currentdq++;
-    if (allnumbers.length == currentdq) {
-      while (parseInt(localStorage.getItem(current.concat("qat")))+currentdq != allnumbers.length) {
-        randomNum = Math.floor(Math.random() * parseInt(localStorage.getItem(current.concat("qat")))) + 1;
-        if (allnumbers.lastIndexOf(randomNum) < currentdq) {
-          allnumbers.push(randomNum);
-        }
-      }
-    }
-    accyAnswer = Math.floor(Math.random() * 4);
-    thearray = [];
-    for (i = 0; i < 4; i++) {
-      if (i == accyAnswer) {
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", allnumbers[currentdq].toString()));
-      } else {
-        bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        while (thearray.indexOf(bru67) != -1 || bru67 == allnumbers[currentdq]-1) {
-          bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        }
-        thearray.push(bru67);
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", (bru67 + 1).toString()));
-      }
-    }
-    thearray = [];
-    document.getElementById("qtext2").style.fontSize = "5.5dvh";
-    document.getElementById("qtext2").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentdq].toString()));
-    }, 1200) }
-    if (!gameEnd) { setTimeout(function() {
-    window.innerHeight;
-    document.getElementsByClassName("mcqfrfr")[0].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[1].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[2].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[3].style.opacity = 1;
-      document.getElementById("audio").style.opacity = 1;
-      document.getElementById("lildropdown").style.opacity = 1;
-    document.getElementById("question2").style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[0].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[1].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[2].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[3].style.pointerEvents = "initial";
-      document.getElementById("audio").style.pointerEvents = "all";
-      document.getElementById("lildropdown").style.pointerEvents = "all";
-    window.innerHeight;
-
-    }, 1300) };
-  } else {
-    con.push(0);
-    pose("confused");
-    for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[i].style.pointerEvents = "none";
-    }
-    document.getElementById("audio").style.pointerEvents = "none";
-    document.getElementById("lildropdown").style.pointerEvents = "none";
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.backgroundColor = "rgb(255, 133, 0)";
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.outlineWidth = "1dvh";
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.width = "calc((100dvw - 20dvh) / 2)"
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.fontWeight = "bold";
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.boxShadow = "0dvh 0dvh 10dvh rgba(255,133,0,0.8)";
-    document.getElementsByClassName("mcqfrfr")[oneclicked].style.zIndex = 2001; 
-    for (i = 0; i < 4; i++) {
-      if (i != accyAnswer && i != oneclicked) {
-        document.getElementsByClassName("mcqfrfr")[i].style.backgroundColor = "rgba(255, 133, 0, 1)";
-        document.getElementsByClassName("mcqfrfr")[i].style.opacity = 0.5;
-      } else if (i != oneclicked) {
-        document.getElementsByClassName("mcqfrfr")[i].style.backgroundColor = "rgba(45, 204, 112, 1)";
-        document.getElementsByClassName("mcqfrfr")[i].style.opacity = 0.5;
-      } else {}
-    }
-    if (!gameEnd) { setTimeout(function() {
-      document.getElementById("question2").style.opacity = 0;
-      for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[i].style.opacity = 0;
-    }
-      document.getElementById("audio").style.opacity = 0;
-      document.getElementById("lildropdown").style.opacity = 0;
-    }, 3600) }
-    if (!gameEnd) { setTimeout(function() {
-    for (i = 0; i < 4; i++) {
-      document.getElementsByClassName("mcqfrfr")[0].remove();
-      if (!gameEnd) {
-      newDiv = document.createElement("div");
-      newDiv.classList.add("hidden");
-      newDiv.classList.add("mcqfrfr");
-      newDiv.id = (i+1).toString().concat("mcq");
-      newSpan = document.createElement("span");
-      newDiv.style.transition = "0.6s";
-      newSpan.classList.add("imcq");
-      newSpan.id = (i+1).toString().concat("imcq");
-      newDiv.appendChild(newSpan);
-      if ((i+1) % 2 == 0) {
-        newDiv.style.right = "10.6dvh";
-      } else {
-        newDiv.style.left = "10.6dvh";
-      }
-      if ((i+1) > 2) {
-        newDiv.style.top = "81.1dvh";
-      } else {
-        newDiv.style.top = "65.5dvh";
-      }
-      document.body.appendChild(newDiv);
-      }
-    }
-    currentdq++;
-    if (allnumbers.length == currentdq) {
-      while (parseInt(localStorage.getItem(current.concat("qat")))+currentdq != allnumbers.length) {
-        randomNum = Math.floor(Math.random() * parseInt(localStorage.getItem(current.concat("qat")))) + 1;
-        if (allnumbers.lastIndexOf(randomNum) < currentdq) {
-          allnumbers.push(randomNum);
-        }
-      }
-    }
-    accyAnswer = Math.floor(Math.random() * 4);
-    thearray = [];
-    for (i = 0; i < 4; i++) {
-      if (i == accyAnswer) {
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", allnumbers[currentdq].toString()));
-      } else {
-        bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        while (thearray.indexOf(bru67) != -1 || bru67 == allnumbers[currentdq]-1) {
-          bru67 = Math.floor(Math.random() * parseInt(localStorage.getItem(current + "qat")));
-        }
-        thearray.push(bru67);
-        document.getElementsByClassName("imcq")[i].innerHTML = localStorage.getItem(current.concat("a", (bru67 + 1).toString()));
-      }
-    }
-    thearray = [];
-    document.getElementById("qtext2").style.fontSize = "5.5dvh";
-    document.getElementById("qtext2").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentdq].toString()));
-    }, 4200) }
-    if (!gameEnd) { setTimeout(function() {
-    window.innerHeight;
-    document.getElementsByClassName("mcqfrfr")[0].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[1].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[2].style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[3].style.opacity = 1;
-      document.getElementById("audio").style.opacity = 1;
-      document.getElementById("lildropdown").style.opacity = 1;
-    document.getElementById("question2").style.opacity = 1;
-    document.getElementsByClassName("mcqfrfr")[0].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[1].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[2].style.pointerEvents = "initial";
-    document.getElementsByClassName("mcqfrfr")[3].style.pointerEvents = "initial";
-      document.getElementById("audio").style.pointerEvents = "all";
-      document.getElementById("lildropdown").style.pointerEvents = "all";
-    window.innerHeight;
-
-    }, 4300) };
+  numq--;
+  document.getElementsByClassName("qgroup")[groupToDelete].remove();
+  for (i = groupToDelete; i < document.getElementsByClassName("qgroup").length; i++) {
+    document.getElementsByClassName("questionspan")[i].textContent = "Question ".concat((i + 1).toString(), ": ");
+    document.getElementsByClassName("answerspan")[i].textContent = "Answer ".concat((i + 1).toString(), ": ");
+    document.getElementsByClassName("qgroup")[i].style.top =  0.005 * window.innerHeight + (i * window.innerHeight * 0.16);
   }
+  resizeeverything();
 }
-gameEnd = false;
-function startTimer() {
-  setInterval(function() {
-    if (secondsLeft == 1) {
-      gameEnd = true;
-      secondsLeft--;
-      if (audio) { toggleaudio() }
-      document.getElementById("answer").value = "";
-      document.getElementById("audio").style.pointerEvents = "none";
-      document.getElementById("lildropdown").style.pointerEvents = "none";
-      document.getElementById("qtext").innerHTML = "0";
-      for (i = 0; i < 4; i++) {
-        document.getElementsByClassName("mcqfrfr")[i].style.pointerEvents = "none";
-      }
-      document.body.style.transition = "none";
-      setTimeout(showresults, 2000);
-    } else if (secondsLeft > 1) {
-      secondsLeft--;
-      document.getElementById("qtext").innerHTML = secondstostring(secondsLeft);
-    } else {}
-  }, 1000)
-}
-function secondstostring(secVal) {
-  if (secVal >= 60) {
-    minutesNum = (Math.floor(secVal / 60)).toString();
-    secondsNum = secVal % 60;
-    if (secondsNum < 10) {
-      secondsNum = "0".concat(secondsNum.toString());
-    } else {
-      secondsNum = secondsNum.toString();
-    }
-    return minutesNum.concat(":", secondsNum);
-  } else {
-    return secVal.toString();
-  }
-}
-// ===== Cubic Bezier Implementation =====
-function cubicBezier(x1, y1, x2, y2) {
-  function A(a1, a2) { return 1 - 3*a2 + 3*a1 }
-  function B(a1, a2) { return 3*a2 - 6*a1 }
-  function C(a1)     { return 3*a1 }
-
-  function bezier(t, a1, a2) {
-    return ((A(a1,a2)*t + B(a1,a2))*t + C(a1))*t
-  }
-  function slope(t, a1, a2) {
-    return 3*A(a1,a2)*t*t + 2*B(a1,a2)*t + C(a1)
-  }
-
-  function getT(x) {
-    let t = x
-    for (let i=0; i<5; i++) {
-      let s = slope(t, x1, x2)
-      if (s === 0) return t
-      let xCalc = bezier(t, x1, x2) - x
-      t -= xCalc / s
-    }
-    return t
-  }
-
-  return function(x) {
-    return bezier(getT(x), y1, y2)
-  }
-}
-
-// ===== Animation Loop =====
-function animate(target, duration, easing, callback) {
-  const start = performance.now()
-
-  function step(now) {
-    let progress = Math.min((now - start) / duration, 1)
-    let eased = easing(progress)
-    let val = eased * target
-    callback(val)
-    if (progress < 1) requestAnimationFrame(step)
-  }
-  requestAnimationFrame(step)
-}
-
-// ===== Example easing: CSS "ease-in-out" =====
-const easeInOut = cubicBezier(0.42, 0, 0.58, 1)
-const frontcircle = document.getElementById("frontcircle")
-
-
-// ===== Your Results Function =====
-function showresults() {
-  document.getElementById("awall").classList.remove("hidden");
-  document.getElementById("sq").innerHTML = "Total Score: ".concat(numcorrect.toString());
+addgroup();
+function addgroup() {
+  if (numq != 300) {
+  numq++;
+  /*<div class="qgroup">
+  <div class="question">Question 1: <span class="count"></span><textarea class="blank"></textarea></div>
+  <div class="answer">Answer 1: <span class="count"></span><textarea class="blank"></textarea></div>
+  <img src="remove.png" class="deletegroup">
+  </div>*/
+  newGroup = document.createElement("div");
+  newGroup.classList.add("qgroup");
+  document.getElementById("actualquestions").appendChild(newGroup);
+  newQ = document.createElement("div");
+  newQ.classList.add("question");
+  newSpan = document.createElement("span");
+  newSpan.innerHTML = "Question ".concat(numq.toString(), ": ");
+  newSpan.classList.add("questionspan");
+  newQ.appendChild(newSpan);  
+  newSpan = document.createElement("span");
+  newSpan.classList.add("count");
+  newSpan.innerHTML = "(0/500)";
+  newQ.appendChild(newSpan);
+  newTxtArea = document.createElement("textarea");
+  newTxtArea.classList.add("blank");
+  newTxtArea.classList.add("qblank");
+  newQ.appendChild(newTxtArea);
+  newGroup.appendChild(newQ);
+  newA = document.createElement("div");
+  newA.classList.add("answer");
+  newSpan = document.createElement("span");
+  newSpan.innerHTML = "Answer ".concat(numq.toString(), ": ");
+  newSpan.classList.add("answerspan");
+  newA.appendChild(newSpan);
+  newSpan = document.createElement("span");
+  newSpan.classList.add("count2");
+  newSpan.innerHTML = "(0/1000)";
+  newA.appendChild(newSpan);
+  newTxtArea2 = document.createElement("textarea");
+  newTxtArea2.classList.add("blank");
+  newTxtArea2.classList.add("ablank");
+  newA.appendChild(newTxtArea2);
+  newGroup.appendChild(newA);
+  newRemove = document.createElement("img");
+  newRemove.classList.add("deletegroup");
+  newRemove.src = "../media/images/delete.png";
+  newGroup.appendChild(newRemove);
+  newGroup.style.top = 0.005 * window.innerHeight + ((numq - 1) * window.innerHeight * 0.16);
+  newRemove.setAttribute("onclick", "removegroup()");
   if (localStorage.getItem("darkmode") == "1") {
-    document.body.style.backgroundColor = "black";
-  } else {
-    document.body.style.backgroundColor = "white";
+    newGroup.style.outline = "0.5dvh solid white";
+    newA.style.backgroundColor = "white";
+    newQ.style.backgroundColor = "white";
+    newA.style.color = "black";
+    newQ.style.color = "black";
+    newTxtArea.style.color = "black";
+    newTxtArea2.style.color = "black";
   }
-  howdidido = Math.floor(360 * (numcorrect / con.length)).toString();
-  ofo = numcorrect / con.length;
-  if (con.length == 0) {
-    ofo = 0;
-    howdidido = "0";
   }
-  if (ofo < 0.4) {
-    cfc = "#ff8500";
-    posescore("sad");
-  } else if (ofo < 0.7) {
-    cfc = "#ffe017";
-    posescore("confused");
-  } else if (ofo < 0.9) {
-    cfc = "#a8c96e";
-    posescore("happy");
-  } else {
-    cfc = "#2dcc70";
-    posescore("amazed");
-  }
-  for (i = 0; i < con.length; i++) {
-    if (con[i] == 0) { 
-      createsq(false, allnumbers[i].toString());
-    } else {
-      createsq(true, allnumbers[i].toString());
-    }
-  }
-  if (howdidido == 360) {
-  document.getElementById("percentage").style.backgroundColor = "#2dcc70";
-  } else if (localStorage.getItem("darkmode") != "1") {
-  document.getElementById("percentage").style.backgroundImage = "conic-gradient(".concat(cfc, " 0deg, ", cfc, " ", howdidido, "deg, #efefef ", howdidido, "deg, #efefef 360deg)");
-  } else {
-  document.getElementById("percentage").style.backgroundImage = "conic-gradient(".concat(cfc, " 0deg, ", cfc, " ", howdidido, "deg, #3a3a3a ", howdidido, "deg, #3a3a3a 360deg)");
-  }
-  document.getElementById("textim").innerHTML = Math.floor(ofo * 100) + "%";
-  document.getElementById("firstpart").classList.add("hidden")
-  document.getElementById("secondpart").classList.remove("hidden")
-  setTimeout(function() {
-    frontcircle.classList.add("hidden");
-  }, 3000);
-  setTimeout(function() {
-      document.getElementById("textim").style.color = cfc;
-  animate(360, 2000, easeInOut, (val) => {
-    // Build a valid conic-gradient
-    frontcircle.style.backgroundColor = "rgba(0,0,0,0)";
-    if (localStorage.getItem("darkmode") == "1") {
-    frontcircle.style.backgroundImage = 
-      `conic-gradient(from 0deg, rgba(0,0,0,0) 0deg ${val}deg, black ${val}deg 360deg)`
-    } else {
-    frontcircle.style.backgroundImage = 
-      `conic-gradient(from 0deg, rgba(0,0,0,0) 0deg ${val}deg, white ${val}deg 360deg)`
-    }
-  })}, 1000);
-  setTimeout(function() {
-    document.getElementById("percentage").style.top = "30dvh";
-    document.getElementById("percentage").style.left = "10.5dvh";
-    document.getElementById("percentage").style.width = "15dvh";
-    document.getElementById("percentage").style.height = "15dvh";
-    document.getElementById("textim").style.fontSize = "3.33dvh";
-  }, 4000)
-  setTimeout(function() {
-    document.getElementById("whitebit").style.width = 0;
-    document.getElementById("finish").classList.remove("hidden");
-    document.getElementById("redo").classList.remove("hidden");
-  }, 6000)
+  resizeeverything();
 }
-
-allcorrect = 0;
-function createsq(tof, type) {
-  newSQ = document.createElement("div");
-  newSQ.innerHTML = "Q: " + localStorage.getItem(current.concat("q", type)) + "<br><span style='font-weight: bold'>A: " + localStorage.getItem(current.concat("a", type)) + "</span>";
+function save() {
+  isempty = false;
+  for (i = 0; i < document.getElementsByClassName("qblank").length; i++) {
+    if (document.getElementsByClassName("qblank")[i].value == "" || document.getElementsByClassName("ablank")[i].value == "") {
+      isempty = true;
+    }
+  }
+  if (numq == 0) {
+    alert("You need at least one question in your set.")
+  } else if (document.getElementsByClassName("mb")[0].value == "") {
+    alert("You need a set name.")
+  } else if (document.getElementsByClassName("mb")[1].value == "") {
+    alert("You need a set author.")
+  } else if (isempty) {
+    alert("One of your questions or answers is missing text.")
+  } else {
+    if (localStorage.getItem(current + "whiteboardrecommended")) {} else {
+      localStorage.removeItem(current + "whiteboardrecommended");
+    }
+    if (localStorage.getItem(current + "terms")) {} else {
+      localStorage.removeItem(current + "terms");
+    }
+    if (localStorage.getItem(current + "chronological")) {} else {
+      localStorage.removeItem(current + "chronological");
+    }
+    localStorage.setItem("numofsets", (parseInt(localStorage.getItem("numofsets")) + 1).toString());
+    localStorage.setItem(current.concat("qat"), numq.toString());
+    localStorage.setItem(current.concat("n"), document.getElementsByClassName("mb")[0].value);
+    localStorage.setItem(current.concat("a"), document.getElementsByClassName("mb")[1].value);
+    localStorage.setItem(current.concat("p"), currentselectedpic.toString());
+    for (i = 0; i < document.getElementsByClassName("qblank").length; i++) {
+      localStorage.setItem(current.concat("q", (i + 1).toString()), document.getElementsByClassName("qblank")[i].value);
+      localStorage.setItem(current.concat("a", (i + 1).toString()), document.getElementsByClassName("ablank")[i].value);
+    }
+    window.location.href = "../sets/";
+  }
+}
+currentselectedpic = 0;
+function changeimgs() {
+  whichcategory = (parseInt(document.getElementById("category").value)) - 1;
+  for (i = 0; i < document.getElementsByClassName("picselection").length; i++) {
+    document.getElementsByClassName("picselection")[i].style.backgroundImage = "url('../media/images/setcovers/".concat(((whichcategory * 10) + (i + 1)).toString(), ".png')");
+    rem = currentselectedpic % 10;
+    if (rem == 0) { rem = 10; } 
+    leveltwo = ((currentselectedpic - rem) / 10) + 1;
+    rem--;
+    if (rem == i && leveltwo == parseInt(document.getElementById("category").value)) {
+    if (localStorage.getItem("darkmode") == "1") {
+    document.getElementsByClassName("picselection")[i].classList.add("selectedpicdarkmode");
+    } else {
+    document.getElementsByClassName("picselection")[i].classList.add("selectedpic");
+    }
+    } else {
+    if (localStorage.getItem("darkmode") == "1") {
+    document.getElementsByClassName("picselection")[i].classList.remove("selectedpicdarkmode");
+    } else {
+    document.getElementsByClassName("picselection")[i].classList.remove("selectedpic");
+    }
+    }
+  }
+}
+function selectapic() {
   if (localStorage.getItem("darkmode") == "1") {
-    newSQ.classList.add("sqq");
-    newSQ.classList.add("sqqdm");
+  event.target.classList.add("selectedpicdarkmode");
   } else {
-    newSQ.classList.add("sqq");
+  event.target.classList.add("selectedpic");
   }
-  if (tof == true) {
-    newSQ.style.outline = "0.3dvh solid #2dcc70";
-  } else {
-    newSQ.style.outline = "0.3dvh solid #ff8500";
+  for (i = 0; i < document.getElementsByClassName("picselection").length; i++) {
+    if (event.target == document.getElementsByClassName("picselection")[i]) {
+      numIndex = i + 1;
+    }
   }
-  document.getElementById("fmq").appendChild(newSQ);
-  resizeSQs();
-}
-window.addEventListener("resize", resizeSQs);
-function resizeSQs() {
-  totaltop = 0.045 * window.innerHeight;
-  for (a = 0; a < document.getElementsByClassName("sqq").length; a++) {
-    document.getElementsByClassName("sqq")[a].style.top = totaltop + "px";
-    totaltop += document.getElementsByClassName("sqq")[a].offsetHeight + 0.01 * window.innerHeight;
-  }
-}
-function check() {
-  document.getElementById("check").setAttribute("onclick", "");
-  if (localStorage.getItem("gn") == "1") {
-    correcton = localStorage.getItem(current.concat("a", allnumbers[currentq - 1])).toUpperCase() == document.getElementById("answer").value.toUpperCase();
-  } else {
-    newword = "";
-    allwords = [];
-    alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    thequestion = document.getElementById("answer").value.toLowerCase();
-    for (i = 0; i < thequestion.length; i++) {
-      if (i+1 == thequestion.length) {
-        if (alphabet.indexOf(thequestion[i]) != -1) {
-        allwords.push(newword.concat(thequestion[i]));
-        } else if (newword != "") {
-        allwords.push(newword);
-        }
-      } else if (alphabet.indexOf(thequestion[i]) != -1) {
-        newword = newword.concat(thequestion[i]);
+  currentselectedpic = ((parseInt(document.getElementById("category").value) - 1) * 10) + numIndex;
+  document.getElementById("fadedbg").style.backgroundImage = "url('../media/images/setcovers/".concat(currentselectedpic.toString(), ".png')");
+  for (i = 0; i < document.getElementsByClassName("picselection").length; i++) {
+    if (document.getElementsByClassName("picselection")[i] != event.target) {
+      if (localStorage.getItem("darkmode") == "1") {
+      document.getElementsByClassName("picselection")[i].classList.remove("selectedpicdarkmode");
       } else {
-        if (newword != "") {
-        allwords.push(newword);
-        }
-        newword = "";
+      document.getElementsByClassName("picselection")[i].classList.remove("selectedpic");
       }
     }
-    newword = "";
-    allwordsa = [];
-    thequestion = localStorage.getItem(current.concat("a", allnumbers[currentq - 1])).toLowerCase();
-    for (i = 0; i < thequestion.length; i++) {
-      if (i+1 == thequestion.length) {
-        if (alphabet.indexOf(thequestion[i]) != -1) {
-        allwordsa.push(newword.concat(thequestion[i]));
-        } else if (newword != "") {
-        allwordsa.push(newword);
-        }
-      } else if (alphabet.indexOf(thequestion[i]) != -1) {
-        newword = newword.concat(thequestion[i]);
-      } else {
-        if (newword != "") {
-        allwordsa.push(newword);
-        }
-        newword = "";
-      }
-    }
-    nallwords = [];
-    unimportantWords = [
-  "a","an","the","about","above","across","after","against","along","amid","among","around",
-  "at","before","behind","below","beneath","beside","between","beyond","by","despite","down",
-  "during","except","for","from","in","inside","into","near","of","off","on","onto","out",
-  "outside","over","since","through","throughout","till","to","toward","under","underneath",
-  "until","up","upon","with","within","without",
-  "der","die","das","ein","eine","einer","einem","einen","eines","dem","den","des",
-  "an","auf","aus","bei","durch","für","gegen","hinter","in","mit","nach","neben","ohne",
-  "seit","um","unter","über","von","vor","während","wegen","zu","zum","zur",
-  "il","lo","la","i","gli","le","un","una","uno","del","della","dello","dei","degli","dell'",
-  "a","da","di","in","su","con","tra","fra","sopra","sotto","senza","dopo","prima","fino","entro",
-  "le","la","les","un","une","des","du","de","d'","au","aux",
-  "à","chez","dans","en","sur","sous","devant","derrière","par","pour","sans","vers",
-  "avec","entre","pendant","jusqu’à","depuis","avant","après","près","autour",
-  "el","la","los","las","un","una","unos","unas","al","del",
-  "a","ante","bajo","con","contra","de","desde","en","entre","hacia","hasta",
-  "sin","sobre","tras","durante","mediante",
-  "and","or","but","nor","so","yet","for","although","because","since","unless","while","whereas","if","as","though","even","once","when",
-  "und","oder","aber","denn","doch","sondern","obwohl","weil","da","wenn","falls","sowie","solange","bis","bevor","nachdem","während","obgleich",
-  "e","o","ma","né","però","anche se","poiché","dato che","quando","finché","se","mentre","perché","come","anche","appena","fino a",
-  "et","ou","mais","ni","car","donc","tandis que","parce que","puisque","lorsque","si","quoique","bien que","comme","pendant que","avant que","après que",
-  "y","o","pero","ni","aunque","porque","pues","ya que","mientras","cuando","hasta que","si","como","una vez que"
-];
-
-    for (i = 0; i < allwords.length; i++) {
-      if (unimportantWords.indexOf(allwords[i]) == -1) {
-        nallwords.push(allwords[i]);
-      }
-    }
-    allwords = nallwords;
-    nallwords = [];
-    for (i = 0; i < allwordsa.length; i++) {
-      if (unimportantWords.indexOf(allwordsa[i]) == -1) {
-        nallwords.push(allwordsa[i]);
-      }
-    }
-    allwordsa = nallwords;
-    numtobeat = allwordsa.length * 0.85;
-    numhave = 0;
-    for (i = 0; i < allwords.length; i++) {
-      if (allwordsa.indexOf(allwords[i]) > -1) {
-        ogi = i;
-        if (allwordsa.indexOf(allwords[i]) <= i) {
-          i--;
-        }
-        eindex = allwordsa.indexOf(allwords[ogi]);
-        allwords.splice(allwords[ogi], 1);
-        allwordsa.splice(eindex, 1);
-        numhave++; 
-      }
-    }
-    correcton = numhave >= numtobeat;
-  }
-  if (correcton) {
-    if (currentq == allnumbers.length) {
-      clbl = 100;
-    }
-    if (localStorage.getItem("darkmode") == "1") {
-      document.getElementById("title").style.color = "white";
-      document.getElementById("popup").style.boxShadow = "0 0 10dvh black";
-    } else {
-      document.getElementById("title").style.color = "#c12020";
-      document.getElementById("popup").style.boxShadow = "0 0 10dvh rgb(173, 173, 173)";
-    }
-    allcorrect++;
-    pose("happy");
-    document.getElementById("answer").style.pointerEvents = "none";
-    document.getElementById("insloadbar").style.backgroundColor = "#2dcc70";
-    document.getElementById("popup").style.top = "54dvh";
-    random = Math.floor(Math.random() * congratsmsg.length);
-    document.getElementById("title").innerHTML = congratsmsg[random];
-    document.getElementById("desc").innerHTML = "<span style='font-weight: bold'>Correct Answer: </span>".concat(localStorage.getItem(current.concat("a", allnumbers[currentq - 1])), "<br><br><br><br><br>");
-  } else {
-    if (localStorage.getItem("darkmode") == "1") {
-      document.getElementById("title").style.color = "white";
-      document.getElementById("popup").style.boxShadow = "0 0 10dvh black";
-    } else {
-      document.getElementById("title").style.color = "#c12020";
-      document.getElementById("popup").style.boxShadow = "0 0 10dvh rgb(173, 173, 173)";
-    }
-    document.getElementById("answer").style.pointerEvents = "none";
-    pose("confused");
-    allnumbers.push(allnumbers[currentq - 1]);
-    document.getElementById("popup").style.top = "60dvh";
-    random = Math.floor(Math.random() * nopemsg.length);
-    document.getElementById("title").innerHTML = nopemsg[random];
-    document.getElementById("desc").innerHTML = "<span style='font-weight: bold'>Your Answer: </span>".concat(document.getElementById("answer").value, "<br><br><span style='font-weight: bold'>Correct Answer: </span>", localStorage.getItem(current.concat("a", allnumbers[currentq - 1])), "<br><br><br><br><br>");
-  }
-  if (clbl != 100) {
-  clbl += (100 - clbl) / (allnumbers.length + 1 - currentq);
-  }
-  document.getElementById("insloadbar").style.width = clbl + "%";
-}
-function pose(exp) {
-  if (exp == "confused") {
-    document.getElementById("torahead").style.backgroundImage = "url('toraheadconfused.png')";
-    document.getElementById("torahead").style.transform = "translate(-50%, -50%) rotate(30deg)";
-  } else if (exp == "happy") {
-    document.getElementById("torahead").style.backgroundImage = "url('toraheadhappy.png')";
-    document.getElementById("torahead").style.transform = "translate(-50%, -50%) rotate(30deg)";
-  } else {
-    document.getElementById("torahead").style.backgroundImage = "url('toraheadnormal.png')";
-    document.getElementById("torahead").style.transform = "translate(-50%, -50%) rotate(0deg)";
   }
 }
-function posescore(exp) {
+window.addEventListener("cut", palmtree);
+window.addEventListener("keydown", palmtree);
+window.addEventListener("paste", palmtree);
+function palmtree() {
   setTimeout(function() {
-  if (exp == "confused") {
-    document.getElementById("torahead2").style.backgroundImage = "url('toraheadconfused.png')";
-    document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(30deg)";
-  } else if (exp == "happy") {
-    document.getElementById("torahead2").style.backgroundImage = "url('toraheadhappy.png')";
-    document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(30deg)";
-  } else if (exp == "amazed") {
-    document.getElementById("torahead2").style.backgroundImage = "url('toraheadamazed.png')";
-    document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(30deg)";
-  } else {
-    document.getElementById("torahead2").style.backgroundImage = "url('toraheadsad.png')";
-    document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(30deg)";
-    setTimeout(function() {
-      document.getElementById("torahead2").style.transition = "1.2s transform";
-      window.innerHeight;
-      document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(-30deg)";
-    }, 800);
-    setTimeout(function() {
-      document.getElementById("torahead2").style.transition = "0.8s transform";
-      window.innerHeight;
-      document.getElementById("torahead2").style.transform = "translate(-50%, -50%) rotate(0deg)";
-    }, 2200)
+  if (document.getElementsByClassName("mb")[0].value.length > 50) {
+    document.getElementsByClassName("mb")[0].value = document.getElementsByClassName("mb")[0].value.substring(0, 50);
   }
-  }, 1500);
-}
-function next() {
-  if (currentq != allnumbers.length) {
-  document.getElementById("insloadbar").style.backgroundColor = "#c12020";
-  pose("normal");
-  document.getElementById("popup").style.top = "90dvh";
-    document.getElementById("popup").style.boxShadow = "none";
-    if (localStorage.getItem("darkmode") == "1") {
-    document.getElementById("title").style.color = "#3a3a3a";
-    } else {
-    document.getElementById("title").style.color = "#efefef";
+  document.getElementById("nameofset").innerHTML = document.getElementsByClassName("mb")[0].value;
+  resizeeverything();
+  if (document.getElementsByClassName("mb")[1].value.length > 50) {
+    document.getElementsByClassName("mb")[1].value = document.getElementsByClassName("mb")[1].value.substring(0, 50);
+  }
+  for (i = 0; i < document.getElementsByClassName("question").length; i++) {
+    if (document.getElementsByClassName("qblank")[i].value.length > 500) {
+      document.getElementsByClassName("qblank")[i].value = document.getElementsByClassName("qblank")[i].value.substring(0, 500); 
     }
-    document.getElementById("desc").innerHTML = "";
-    document.getElementById("question").style.opacity = 0;
-    document.getElementById("answer").style.opacity = 0;
-    document.getElementById("check").style.opacity = 0;
-    currentq++;
-    setTimeout(function() { 
-    document.getElementById("answer").style.pointerEvents = "all";
-    document.getElementById("question").style.opacity = 1;
-    document.getElementById("answer").style.opacity = 1;
-    document.getElementById("check").style.opacity = 1;
-    document.getElementById("qtext").innerHTML = localStorage.getItem(current.concat("q", allnumbers[currentq - 1]));
-    
-    document.getElementById("answer").value = "";
-    }, 700)
-    setTimeout(function() {
-    document.getElementById("check").setAttribute("onclick", "check()");
-    }, 1300);
-  } else { showresults(); }
+    document.getElementsByClassName("count")[i].innerHTML = "(".concat(document.getElementsByClassName("qblank")[i].value.length.toString(), "/500)");
+    if (document.getElementsByClassName("ablank")[i].value.length > 1000) {
+      document.getElementsByClassName("ablank")[i].value = document.getElementsByClassName("ablank")[i].value.substring(0, 1000); 
+    }
+    document.getElementsByClassName("count2")[i].innerHTML = "(".concat(document.getElementsByClassName("ablank")[i].value.length.toString(), "/1000)");
+  }
+  }, 100);
 }
+categories = ["Biology and Life Science", "Chemistry and Molecules", "Physics and Engineering", "Math and Symbols", "Anatomy and Medicine", "Geology and Earth Science", "Astronomy and Space", "Ancient History", "Modern History and Politics", "Literature", "Language and Linguistics", "Philosophy and Critical Thinking", "Visual Arts", "Music and Performing Arts", "Culture and World Religions", "Technology and Computing", "Economics and Finance", "Psychology and Neuroscience", "Geography and Maps", "Sociology and Society", "Environmental Science", "Architecture and Design", "Education", "Law and Ethics", "Pop Culture and Media", "Animals", "Sports"];
+for (i = 0; i < categories.length; i++) {
+  newOption = document.createElement("option");
+  newOption.value = (i + 1).toString();
+  newOption.innerHTML = categories[i];
+  document.getElementById("category").appendChild(newOption);
+}
+changeimgs();
+resizeeverything();
+window.addEventListener("resize", resizeeverything);
+document.getElementById("nameofset").innerHTML = localStorage.getItem(current + "n");
+document.getElementById("fadedbg").style.backgroundImage = "url('../media/images/setcovers/" + localStorage.getItem(current + "p") + ".png')";
+function redirect(url) {
+  window.location.href = url;
+}
+function resizeeverything() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  space = (window.innerWidth) - window.innerHeight * 0.1475;
+  ratio = height / width;
+  if (ratio > 1) {
+    for (i = 0; i < document.getElementsByClassName("questionspan").length; i++) {
+      document.getElementsByClassName("questionspan")[i].innerHTML = "Q".concat((i + 1).toString(), ": ");
+      document.getElementsByClassName("answerspan")[i].innerHTML = "A".concat((i + 1).toString(), ": ");
+    }
+  } else {
+    for (i = 0; i < document.getElementsByClassName("questionspan").length; i++) {
+      document.getElementsByClassName("questionspan")[i].innerHTML = "Question ".concat((i + 1).toString(), ": ");
+      document.getElementsByClassName("answerspan")[i].innerHTML = "Answer ".concat((i + 1).toString(), ": ");
+    }
+  }
+  for (a = 0; a < document.getElementsByClassName("questionspan").length; a++) {
+    document.getElementsByClassName("qgroup")[a].style.top = (0.005 * window.innerHeight) + (a * window.innerHeight * 0.16);
+  }
+  ratio = (ratio / 3) * 2;
+  margin = window.innerHeight * 0.02;
+  nopr = parseInt((1 / (ratio / 1.5)) * 1.5);
+  for (i = 0; i < document.getElementsByClassName("picselection").length; i++) {
+    document.getElementsByClassName("picselection")[i].style.width = (document.getElementById("actualpics").offsetWidth - (((1 + nopr) / 100) * window.innerHeight)) / nopr;
+    document.getElementsByClassName("picselection2")[i].style.width = (document.getElementById("actualpics").offsetWidth - (((1 + nopr) / 100) * window.innerHeight)) / nopr;
+    widthVal = (document.getElementById("actualpics").offsetWidth - (((1 + nopr) / 100) * window.innerHeight)) / nopr;
+    remainder = (i + 1) % nopr;
+    if (remainder == 0) { remainder = nopr }
+    document.getElementsByClassName("picselection")[i].style.left = (0.01 * window.innerHeight) + ((remainder - 1) * (widthVal + (0.01 * window.innerHeight)));
+    document.getElementsByClassName("picselection2")[i].style.left = (0.01 * window.innerHeight) + ((remainder - 1) * (widthVal + (0.01 * window.innerHeight)));
+    level = ((i + 1) - remainder) / nopr;
+    document.getElementsByClassName("picselection")[i].style.top = 0.01 * window.innerHeight + (level * (0.09 * window.innerHeight));
+    document.getElementsByClassName("picselection2")[i].style.top = 0.01 * window.innerHeight + (level * (0.09 * window.innerHeight));
+  }
+  //resize the text/name
+}
+if (localStorage.getItem("darkmode")) {} else {
+  localStorage.setItem("darkmode", "0");
+}
+arrayOfPictureNames = ["home", "study", "play", "sets", "create", "import", "settings"];
+if (localStorage.getItem("darkmode") == "1") {
+  document.body.style.backgroundColor = "black";
+  document.getElementById("heading").style.backgroundColor = "white";
+  document.getElementById("sidebar").style.outline = "3dvh solid white";
+  document.getElementById("sidebar").style.backgroundColor = "black";
+  for (i = 0; i < document.getElementsByClassName("hpimg").length; i++) {
+    if (document.getElementsByClassName("hyperlink")[i].classList.contains("selected")) {
+      document.getElementsByClassName("hyperlink")[i].style.backgroundColor = "white";
+      document.getElementsByClassName("hplabel")[i].style.backgroundColor = "white";
+      document.getElementsByClassName("hplabel")[i].style.color = "black";
+      document.getElementsByClassName("hpimg")[i].src = "../media/images/toolbar/" + arrayOfPictureNames[i] + "black.png";
+    } else {
+      document.getElementsByClassName("hpimg")[i].src = "../media/images/toolbar/" + arrayOfPictureNames[i] + "selected.png";
+      document.getElementsByClassName("hyperlink")[i].classList.add("darkmodehyperlink");
+    }
+  }
+  document.getElementsByClassName("mb")[0].style.color = "white";
+  document.getElementsByClassName("mb")[0].style.outline = "0.5dvh solid white";
+  document.getElementsByClassName("mb")[1].style.color = "white";
+  document.getElementsByClassName("mb")[1].style.outline = "0.5dvh solid white";
+  document.getElementById("manifest").style.outline = "1.5dvh solid white";
+  document.getElementById("manifest").style.color = "white";
+  document.getElementById("category").style.backgroundColor = "white";
+  document.getElementById("category").style.color = "black";
+  document.getElementById("picture").style.outline = "0.5dvh solid white";
+  document.getElementById("nameofset").style.color = "black";
+  document.getElementById("qaa").style.outline = "1.5dvh solid white";
+  document.getElementById("qaa").style.color = "white";
+  document.getElementById("addquestion").style.filter = "invert(1)";
+  document.getElementsByClassName("imginsidetext")[0].style.filter = "invert(1)";
+  for (i = 0; i < document.getElementsByClassName("srem").length; i++) {
+    document.getElementsByClassName("srem")[i].style.backgroundColor = "black";
+    document.getElementsByClassName("srembutton")[i].style.backgroundColor = "black";
+  }
+  document.getElementsByClassName("picture")[0].style.backgroundColor = "black";
+  document.getElementsByClassName("picture")[0].style.outline = "0.5dvh solid white";
+  document.getElementsByClassName("category")[0].style.backgroundColor = "white";
+  document.getElementsByClassName("category")[0].style.color = "black";
+}
+palmtree();
 </script>
-</html>
